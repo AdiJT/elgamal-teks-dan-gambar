@@ -43,16 +43,18 @@
             this.label2 = new System.Windows.Forms.Label();
             this.textBoxP = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.comboBoxJenisEnkripsi = new System.Windows.Forms.ComboBox();
+            this.panelEnkripsi = new System.Windows.Forms.Panel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.panelEnkripsi = new System.Windows.Forms.Panel();
-            this.enkripsiCitra1 = new ElGamal.Enkripsi.EnkripsiCitra();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.comboBoxJenisDekripsi = new System.Windows.Forms.ComboBox();
+            this.panelDeskripsi = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -61,8 +63,10 @@
             this.tabPage1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
-            this.panelEnkripsi.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -70,15 +74,13 @@
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.progressBar1, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.tabControl1, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 3;
+            this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.Size = new System.Drawing.Size(840, 528);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
@@ -121,6 +123,7 @@
             this.textBoxX.Size = new System.Drawing.Size(100, 20);
             this.textBoxX.TabIndex = 3;
             this.textBoxX.Text = "0";
+            this.textBoxX.TextChanged += new System.EventHandler(this.textBoxX_TextChanged);
             this.textBoxX.Validating += new System.ComponentModel.CancelEventHandler(this.textBoxX_Validating);
             // 
             // label5
@@ -166,6 +169,7 @@
             this.textBoxY.Size = new System.Drawing.Size(100, 20);
             this.textBoxY.TabIndex = 5;
             this.textBoxY.Text = "0";
+            this.textBoxY.TextChanged += new System.EventHandler(this.textBoxY_TextChanged);
             // 
             // label3
             // 
@@ -183,6 +187,7 @@
             this.textBoxG.Size = new System.Drawing.Size(100, 20);
             this.textBoxG.TabIndex = 3;
             this.textBoxG.Text = "0";
+            this.textBoxG.TextChanged += new System.EventHandler(this.textBoxG_TextChanged);
             this.textBoxG.Validating += new System.ComponentModel.CancelEventHandler(this.textBoxG_Validating);
             // 
             // label2
@@ -201,6 +206,7 @@
             this.textBoxP.Size = new System.Drawing.Size(100, 20);
             this.textBoxP.TabIndex = 1;
             this.textBoxP.Text = "0";
+            this.textBoxP.TextChanged += new System.EventHandler(this.textBoxP_TextChanged);
             this.textBoxP.Validating += new System.ComponentModel.CancelEventHandler(this.textBoxP_Validating);
             // 
             // label1
@@ -212,14 +218,6 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Bil. Prima p";
             // 
-            // progressBar1
-            // 
-            this.progressBar1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.progressBar1.Location = new System.Drawing.Point(3, 502);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(834, 23);
-            this.progressBar1.TabIndex = 2;
-            // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
@@ -228,7 +226,7 @@
             this.tabControl1.Location = new System.Drawing.Point(3, 103);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(834, 393);
+            this.tabControl1.Size = new System.Drawing.Size(834, 422);
             this.tabControl1.TabIndex = 3;
             // 
             // tabPage1
@@ -237,7 +235,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(826, 367);
+            this.tabPage1.Size = new System.Drawing.Size(826, 396);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Enkripsi";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -254,7 +252,7 @@
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(820, 361);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(820, 390);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // panel2
@@ -276,13 +274,23 @@
             this.comboBoxJenisEnkripsi.Name = "comboBoxJenisEnkripsi";
             this.comboBoxJenisEnkripsi.Size = new System.Drawing.Size(121, 21);
             this.comboBoxJenisEnkripsi.TabIndex = 0;
+            this.comboBoxJenisEnkripsi.SelectedIndexChanged += new System.EventHandler(this.comboBoxJenisEnkripsi_SelectedIndexChanged);
+            // 
+            // panelEnkripsi
+            // 
+            this.panelEnkripsi.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelEnkripsi.Location = new System.Drawing.Point(3, 43);
+            this.panelEnkripsi.Name = "panelEnkripsi";
+            this.panelEnkripsi.Size = new System.Drawing.Size(814, 344);
+            this.panelEnkripsi.TabIndex = 1;
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.tableLayoutPanel3);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(826, 367);
+            this.tabPage2.Size = new System.Drawing.Size(826, 396);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Dekripsi";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -291,22 +299,49 @@
             // 
             this.errorProvider1.ContainerControl = this;
             // 
-            // panelEnkripsi
+            // tableLayoutPanel3
             // 
-            this.panelEnkripsi.Controls.Add(this.enkripsiCitra1);
-            this.panelEnkripsi.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelEnkripsi.Location = new System.Drawing.Point(3, 43);
-            this.panelEnkripsi.Name = "panelEnkripsi";
-            this.panelEnkripsi.Size = new System.Drawing.Size(814, 315);
-            this.panelEnkripsi.TabIndex = 1;
+            this.tableLayoutPanel3.ColumnCount = 1;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Controls.Add(this.panel3, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.panelDeskripsi, 0, 1);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 2;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(820, 390);
+            this.tableLayoutPanel3.TabIndex = 1;
             // 
-            // enkripsiCitra1
+            // panel3
             // 
-            this.enkripsiCitra1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.enkripsiCitra1.Location = new System.Drawing.Point(0, 0);
-            this.enkripsiCitra1.Name = "enkripsiCitra1";
-            this.enkripsiCitra1.Size = new System.Drawing.Size(814, 315);
-            this.enkripsiCitra1.TabIndex = 0;
+            this.panel3.Controls.Add(this.comboBoxJenisDekripsi);
+            this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel3.Location = new System.Drawing.Point(3, 3);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(814, 34);
+            this.panel3.TabIndex = 0;
+            // 
+            // comboBoxJenisDekripsi
+            // 
+            this.comboBoxJenisDekripsi.FormattingEnabled = true;
+            this.comboBoxJenisDekripsi.Items.AddRange(new object[] {
+            "Citra",
+            "Teks"});
+            this.comboBoxJenisDekripsi.Location = new System.Drawing.Point(11, 7);
+            this.comboBoxJenisDekripsi.Name = "comboBoxJenisDekripsi";
+            this.comboBoxJenisDekripsi.Size = new System.Drawing.Size(121, 21);
+            this.comboBoxJenisDekripsi.TabIndex = 0;
+            this.comboBoxJenisDekripsi.SelectedIndexChanged += new System.EventHandler(this.comboBoxJenisDekripsi_SelectedIndexChanged);
+            // 
+            // panelDeskripsi
+            // 
+            this.panelDeskripsi.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelDeskripsi.Location = new System.Drawing.Point(3, 43);
+            this.panelDeskripsi.Name = "panelDeskripsi";
+            this.panelDeskripsi.Size = new System.Drawing.Size(814, 344);
+            this.panelDeskripsi.TabIndex = 1;
             // 
             // FormMain
             // 
@@ -329,8 +364,10 @@
             this.tabPage1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
-            this.panelEnkripsi.ResumeLayout(false);
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -352,7 +389,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBoxP;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
@@ -360,6 +396,9 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.ComboBox comboBoxJenisEnkripsi;
         private System.Windows.Forms.Panel panelEnkripsi;
-        private Enkripsi.EnkripsiCitra enkripsiCitra1;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.ComboBox comboBoxJenisDekripsi;
+        private System.Windows.Forms.Panel panelDeskripsi;
     }
 }

@@ -59,6 +59,11 @@ namespace OlahCitra.CustomControl
                      var controls = _form.Controls.Find("pictureBox", true);
                     (controls[0] as PictureBox).Image = value;
                 }
+
+                if(pictureBox1.Image != null)
+                    labelResolusi.Text = $"Resolusi : {pictureBox1.Image.Width} X {pictureBox1.Image.Height}";
+                else
+                    labelResolusi.Text = "Resolusi : 0 X 0";
             }
         }
 
