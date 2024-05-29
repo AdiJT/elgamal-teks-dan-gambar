@@ -1,4 +1,4 @@
-﻿namespace desainUIKripto
+﻿namespace OlahCitra.CustomControl
 {
     partial class FormHistogram
     {

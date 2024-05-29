@@ -49,6 +49,12 @@
     <Compile Include="CustomPictureBox.Designer.cs">
       <DependentUpon>CustomPictureBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormHistogram.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormHistogram.Designer.cs">
+      <DependentUpon>FormHistogram.cs</DependentUpon>
+    </Compile>
     <Compile Include="Histogram.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -72,6 +78,9 @@
   <ItemGroup>
     <EmbeddedResource Include="CustomPictureBox.resx">
       <DependentUpon>CustomPictureBox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormHistogram.resx">
+      <DependentUpon>FormHistogram.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Histogram.resx">
       <DependentUpon>Histogram.cs</DependentUpon>

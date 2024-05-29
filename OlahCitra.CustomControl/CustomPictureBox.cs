@@ -44,7 +44,7 @@ namespace OlahCitra.CustomControl
         private Form _form;
 
         [Browsable(true)]
-        public string Title { get; set; }
+        public string Title { get => labelTitle.Text; set => labelTitle.Text = value; }
 
         [Browsable(true)]
         public Bitmap Image
@@ -64,7 +64,12 @@ namespace OlahCitra.CustomControl
 
         private void buttonHistogram_Click(object sender, EventArgs e)
         {
-
+            if (pictureBox1.Image != null)
+            {
+                var formHistogram = new FormHistogram();
+                formHistogram.SetHistogram(new Bitmap(pictureBox1.Image));
+                formHistogram.Show();
+            }
         }
     }
 }

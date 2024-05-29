@@ -272,7 +272,7 @@
             this.comboBoxJenisEnkripsi.Items.AddRange(new object[] {
             "Citra",
             "Teks"});
-            this.comboBoxJenisEnkripsi.Location = new System.Drawing.Point(8, 7);
+            this.comboBoxJenisEnkripsi.Location = new System.Drawing.Point(11, 7);
             this.comboBoxJenisEnkripsi.Name = "comboBoxJenisEnkripsi";
             this.comboBoxJenisEnkripsi.Size = new System.Drawing.Size(121, 21);
             this.comboBoxJenisEnkripsi.TabIndex = 0;

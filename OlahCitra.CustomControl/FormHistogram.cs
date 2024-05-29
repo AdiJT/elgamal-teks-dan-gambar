@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace desainUIKripto
+namespace OlahCitra.CustomControl
 {
     public partial class FormHistogram : Form
     {

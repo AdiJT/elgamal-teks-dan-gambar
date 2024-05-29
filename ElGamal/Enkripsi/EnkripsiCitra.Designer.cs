@@ -36,13 +36,13 @@
             this.buttonSimpan = new System.Windows.Forms.Button();
             this.buttonEnkripsi = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.labelMSE = new System.Windows.Forms.Label();
+            this.labelPNSR = new System.Windows.Forms.Label();
             this.customPictureBox4 = new OlahCitra.CustomControl.CustomPictureBox();
             this.customPictureBox3 = new OlahCitra.CustomControl.CustomPictureBox();
             this.customPictureBox2 = new OlahCitra.CustomControl.CustomPictureBox();
             this.customPictureBox1 = new OlahCitra.CustomControl.CustomPictureBox();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.labelMSE = new System.Windows.Forms.Label();
-            this.labelPNSR = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -132,49 +132,9 @@
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 512F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 472F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(859, 472);
             this.tableLayoutPanel2.TabIndex = 2;
-            // 
-            // customPictureBox4
-            // 
-            this.customPictureBox4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.customPictureBox4.Image = ((System.Drawing.Bitmap)(resources.GetObject("customPictureBox4.Image")));
-            this.customPictureBox4.Location = new System.Drawing.Point(645, 3);
-            this.customPictureBox4.Name = "customPictureBox4";
-            this.customPictureBox4.Size = new System.Drawing.Size(211, 466);
-            this.customPictureBox4.TabIndex = 3;
-            this.customPictureBox4.Title = "CustomPictureBox";
-            // 
-            // customPictureBox3
-            // 
-            this.customPictureBox3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.customPictureBox3.Image = ((System.Drawing.Bitmap)(resources.GetObject("customPictureBox3.Image")));
-            this.customPictureBox3.Location = new System.Drawing.Point(431, 3);
-            this.customPictureBox3.Name = "customPictureBox3";
-            this.customPictureBox3.Size = new System.Drawing.Size(208, 466);
-            this.customPictureBox3.TabIndex = 2;
-            this.customPictureBox3.Title = "CustomPictureBox";
-            // 
-            // customPictureBox2
-            // 
-            this.customPictureBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.customPictureBox2.Image = ((System.Drawing.Bitmap)(resources.GetObject("customPictureBox2.Image")));
-            this.customPictureBox2.Location = new System.Drawing.Point(217, 3);
-            this.customPictureBox2.Name = "customPictureBox2";
-            this.customPictureBox2.Size = new System.Drawing.Size(208, 466);
-            this.customPictureBox2.TabIndex = 1;
-            this.customPictureBox2.Title = "CustomPictureBox";
-            // 
-            // customPictureBox1
-            // 
-            this.customPictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.customPictureBox1.Image = ((System.Drawing.Bitmap)(resources.GetObject("customPictureBox1.Image")));
-            this.customPictureBox1.Location = new System.Drawing.Point(3, 3);
-            this.customPictureBox1.Name = "customPictureBox1";
-            this.customPictureBox1.Size = new System.Drawing.Size(208, 466);
-            this.customPictureBox1.TabIndex = 0;
-            this.customPictureBox1.Title = "CustomPictureBox";
             // 
             // panel2
             // 
@@ -203,6 +163,46 @@
             this.labelPNSR.Size = new System.Drawing.Size(52, 13);
             this.labelPNSR.TabIndex = 1;
             this.labelPNSR.Text = "PNSR : 0";
+            // 
+            // customPictureBox4
+            // 
+            this.customPictureBox4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.customPictureBox4.Image = ((System.Drawing.Bitmap)(resources.GetObject("customPictureBox4.Image")));
+            this.customPictureBox4.Location = new System.Drawing.Point(645, 3);
+            this.customPictureBox4.Name = "customPictureBox4";
+            this.customPictureBox4.Size = new System.Drawing.Size(211, 466);
+            this.customPictureBox4.TabIndex = 3;
+            this.customPictureBox4.Title = "Gambar Hasil Enkripsi b";
+            // 
+            // customPictureBox3
+            // 
+            this.customPictureBox3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.customPictureBox3.Image = ((System.Drawing.Bitmap)(resources.GetObject("customPictureBox3.Image")));
+            this.customPictureBox3.Location = new System.Drawing.Point(431, 3);
+            this.customPictureBox3.Name = "customPictureBox3";
+            this.customPictureBox3.Size = new System.Drawing.Size(208, 466);
+            this.customPictureBox3.TabIndex = 2;
+            this.customPictureBox3.Title = "Gambar Hasil Enkripsi a";
+            // 
+            // customPictureBox2
+            // 
+            this.customPictureBox2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.customPictureBox2.Image = ((System.Drawing.Bitmap)(resources.GetObject("customPictureBox2.Image")));
+            this.customPictureBox2.Location = new System.Drawing.Point(217, 3);
+            this.customPictureBox2.Name = "customPictureBox2";
+            this.customPictureBox2.Size = new System.Drawing.Size(208, 466);
+            this.customPictureBox2.TabIndex = 1;
+            this.customPictureBox2.Title = "Gambar GrayScale (Gambar k)";
+            // 
+            // customPictureBox1
+            // 
+            this.customPictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.customPictureBox1.Image = ((System.Drawing.Bitmap)(resources.GetObject("customPictureBox1.Image")));
+            this.customPictureBox1.Location = new System.Drawing.Point(3, 3);
+            this.customPictureBox1.Name = "customPictureBox1";
+            this.customPictureBox1.Size = new System.Drawing.Size(208, 466);
+            this.customPictureBox1.TabIndex = 0;
+            this.customPictureBox1.Title = "Gambar Asli";
             // 
             // EnkripsiCitra
             // 
