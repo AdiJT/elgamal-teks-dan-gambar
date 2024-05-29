@@ -19,7 +19,7 @@ namespace ElGamal
         public FormMain()
         {
             InitializeComponent();
-            
+
             OnKunciPublikChanged += KunciPublikChanged;
             _activeEnkripsi = _enkripsiCitra;
             panelEnkripsi.Controls.Add(_enkripsiCitra);
@@ -27,12 +27,38 @@ namespace ElGamal
             OnKunciPrivatChanged += KunciPrivatChanged;
             _activeDeskripsi = _deskripsiCitra;
             panelDeskripsi.Controls.Add(_deskripsiCitra);
+
+            // Add KeyPress event handlers to restrict input to numbers only
+            textBoxP.KeyPress += TextBox_KeyPress;
+            textBoxG.KeyPress += TextBox_KeyPress;
+            textBoxX.KeyPress += TextBox_KeyPress;
+
+            // Add Validating event handlers
+            textBoxP.Validating += textBoxP_Validating;
+            textBoxG.Validating += textBoxG_Validating;
+            textBoxX.Validating += textBoxX_Validating;
         }
 
-        public long P { get => long.Parse(textBoxP.Text); set => textBoxP.Text = value.ToString(); }
-        public long G { get => long.Parse(textBoxG.Text); set => textBoxG.Text = value.ToString(); }
-        public long Y { get => long.Parse(textBoxY.Text); set => textBoxY.Text = value.ToString(); }
-        public long X { get => long.Parse(textBoxX.Text); set => textBoxX.Text = value.ToString(); }
+        public long P
+        {
+            get => long.TryParse(textBoxP.Text, out var result) ? result : 0;
+            set => textBoxP.Text = value.ToString();
+        }
+        public long G
+        {
+            get => long.TryParse(textBoxG.Text, out var result) ? result : 0;
+            set => textBoxG.Text = value.ToString();
+        }
+        public long Y
+        {
+            get => long.TryParse(textBoxY.Text, out var result) ? result : 0;
+            set => textBoxY.Text = value.ToString();
+        }
+        public long X
+        {
+            get => long.TryParse(textBoxX.Text, out var result) ? result : 0;
+            set => textBoxX.Text = value.ToString();
+        }
 
         private IEnkripsi _activeEnkripsi;
         private EnkripsiCitra _enkripsiCitra = new EnkripsiCitra() { Dock = DockStyle.Fill };
@@ -46,7 +72,7 @@ namespace ElGamal
         public event EventHandler OnKunciPrivatChanged;
 
         public async Task<T> ProsesAsync<T>(Func<T> action)
-        { 
+        {
             return await Task.Run(() => action());
         }
 
@@ -71,9 +97,10 @@ namespace ElGamal
 
             OnKunciPublikChanged?.Invoke(this, EventArgs.Empty);
             OnKunciPrivatChanged?.Invoke(this, EventArgs.Empty);
+            ValidateInputs();
         }
 
-        private (long p, long g, long y, long x) GenerateKunci() 
+        private (long p, long g, long y, long x) GenerateKunci()
         {
             var p = Utils.RandomPrime(3, 4, min: 255);
 
@@ -105,13 +132,15 @@ namespace ElGamal
             try
             {
                 if (string.IsNullOrEmpty(textBoxP.Text)) throw new Exception("Belum diisi");
+                if (!long.TryParse(textBoxP.Text, out _)) throw new Exception("Tidak boleh menginput string");
                 if (!Utils.CekPrimaLehman(P, 6)) throw new Exception("Bilangan Bukan Prima");
-                if (P <= 255) throw new Exception("Bilangan lebih kecil dari 255255255");
+                if (P <= 255) throw new Exception("Bilangan lebih kecil dari 255");
             }
             catch (Exception ex)
             {
                 errorProvider1.SetError(textBoxP, ex.Message);
             }
+            ValidateInputs();
         }
 
         private void textBoxG_Validating(object sender, CancelEventArgs e)
@@ -121,6 +150,7 @@ namespace ElGamal
             try
             {
                 if (string.IsNullOrEmpty(textBoxG.Text)) throw new Exception("Belum diisi");
+                if (!long.TryParse(textBoxG.Text, out _)) throw new Exception("Tidak boleh menginput string");
                 if (G <= 0) throw new Exception("Bilangan nol atau negatif");
                 if (G >= P) throw new Exception("Bilangan lebih besar dari Prima P");
             }
@@ -128,6 +158,7 @@ namespace ElGamal
             {
                 errorProvider1.SetError(textBoxG, ex.Message);
             }
+            ValidateInputs();
         }
 
         private void textBoxX_Validating(object sender, CancelEventArgs e)
@@ -137,6 +168,7 @@ namespace ElGamal
             try
             {
                 if (string.IsNullOrEmpty(textBoxX.Text)) throw new Exception("Belum diisi");
+                if (!long.TryParse(textBoxX.Text, out _)) throw new Exception("Tidak boleh menginput string");
                 if (X <= 0) throw new Exception("Bilangan nol atau negatif");
                 if (X >= P - 1) throw new Exception("Bilangan lebih besar dari Prima P - 1");
             }
@@ -144,6 +176,7 @@ namespace ElGamal
             {
                 errorProvider1.SetError(textBoxX, ex.Message);
             }
+            ValidateInputs();
         }
 
         private async void FormMain_LoadAsync(object sender, EventArgs e)
@@ -157,27 +190,31 @@ namespace ElGamal
             G = hasil.g;
             Y = hasil.y;
             X = hasil.x;
+            ValidateInputs();
         }
 
         private void textBoxP_TextChanged(object sender, EventArgs e)
         {
             OnKunciPublikChanged?.Invoke(this, EventArgs.Empty);
             OnKunciPrivatChanged?.Invoke(this, EventArgs.Empty);
+            ValidateInputs();
         }
 
         private void textBoxG_TextChanged(object sender, EventArgs e)
         {
             OnKunciPublikChanged?.Invoke(this, EventArgs.Empty);
+            ValidateInputs();
         }
 
         private void textBoxY_TextChanged(object sender, EventArgs e)
         {
             OnKunciPublikChanged?.Invoke(this, EventArgs.Empty);
+            ValidateInputs();
         }
 
         private void comboBoxJenisEnkripsi_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if((string)comboBoxJenisEnkripsi.SelectedItem == "Citra")
+            if ((string)comboBoxJenisEnkripsi.SelectedItem == "Citra")
             {
                 panelEnkripsi.Controls.Clear();
                 panelEnkripsi.Controls.Add(_enkripsiCitra);
@@ -196,6 +233,7 @@ namespace ElGamal
         private void textBoxX_TextChanged(object sender, EventArgs e)
         {
             OnKunciPrivatChanged?.Invoke(this, EventArgs.Empty);
+            ValidateInputs();
         }
 
         private void comboBoxJenisDekripsi_SelectedIndexChanged(object sender, EventArgs e)
@@ -214,6 +252,29 @@ namespace ElGamal
             }
 
             OnKunciPrivatChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void TextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Allow control characters, digits only
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+                errorProvider1.SetError((Control)sender, "Tidak boleh menginput string");
+            }
+            else
+            {
+                errorProvider1.SetError((Control)sender, null);
+            }
+        }
+
+        private void ValidateInputs()
+        {
+            bool isValidP = !string.IsNullOrEmpty(textBoxP.Text) && long.TryParse(textBoxP.Text, out _) && errorProvider1.GetError(textBoxP) == "";
+            bool isValidG = !string.IsNullOrEmpty(textBoxG.Text) && long.TryParse(textBoxG.Text, out _) && errorProvider1.GetError(textBoxG) == "";
+            bool isValidX = !string.IsNullOrEmpty(textBoxX.Text) && long.TryParse(textBoxX.Text, out _) && errorProvider1.GetError(textBoxX) == "";
+
+            buttonHitung.Enabled = isValidP && isValidG && isValidX;
         }
     }
 }
