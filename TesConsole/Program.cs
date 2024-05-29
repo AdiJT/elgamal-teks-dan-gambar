@@ -24,9 +24,9 @@ namespace TesConsole
 
         static void TesPangkatModulo()
         {
-            var a = int.MaxValue;
-            var n = int.MaxValue;
-            var m = int.MaxValue;
+            var a = 3;
+            var n = 75;
+            var m = 45;
 
             var hasil = 0L;
 

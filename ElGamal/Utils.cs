@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -10,19 +11,55 @@ namespace ElGamal
     public static class Utils
     {
 
+        //public static long PangkatModulo(long a, long n, long m)
+        ////a^n mod m
+        //{
+        //    if (n == 0) return 1;
+
+        //    if (n % 2 == 1) return Square(PangkatModulo(a, n / 2L, m)) * a % m;
+
+        //    return Square(PangkatModulo(a, n / 2L, m)) % m;
+        //}
+
         public static long PangkatModulo(long a, long n, long m)
-        //a^n mod m
         {
-            if (n == 0) return 1;
+            var bits = Int64ToBit(n);
+            long hasil = 1;
 
-            if (n % 2 == 1) return Square(PangkatModulo(a, n / 2L, m)) * a % m;
+            for(int i = 0; i < bits.Length; i++)
+            {
+                hasil = (hasil * hasil) % m;
+                if (bits[i] == 1)
+                    hasil = (hasil * a) % m;
+            }
 
-            return Square(PangkatModulo(a, n / 2L, m)) % m;
+            return hasil;
+        }
+
+        public static int[] Int64ToBit(long b)
+        {
+            if (b == 0) return new int[] { 0 };
+
+            List<int> bits = new List<int>();
+
+            while(b > 0)
+            {
+                bits.Add((int)(b % 2L));
+                b >>= 1;
+            }
+
+            bits.Reverse();
+
+            return bits.ToArray();
         }
 
         public static long Square(long n)
         {
-            return n * n;
+            var hasil =  n * n;
+
+            if(hasil < n) throw new OverflowException();
+
+            return hasil;
         }
 
         static readonly long[] primes = new long[]
@@ -66,11 +103,12 @@ namespace ElGamal
         {
             var random = new Random();
             var prime = 0L;
-
+            long minDigit = (long)BigInteger.Pow(10, minDigits - 1);
+            long maxDigit = (long)BigInteger.Pow(10, maxDigits - 1);
             do
             {
-                prime = random.Next((int)Math.Pow(10, minDigits), (int)Math.Pow(10, maxDigits));
-            } while (!CekPrimaLehman(prime, 5) || (min != null && prime < min) || (max != null && prime >= max));
+                prime = random.NextLong(minDigit, maxDigit);
+            } while (!CekPrimaLehman(prime, 6) || (min != null && prime < min) || (max != null && prime >= max));
 
             return prime;
         }

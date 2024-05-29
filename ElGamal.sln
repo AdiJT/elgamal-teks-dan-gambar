@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ElGamal", "ElGamal\ElGamal.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesConsole", "TesConsole\TesConsole.csproj", "{5B967C09-7A34-42CD-8E34-F8C288AE6F13}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OlahCitra.CustomControl", "OlahCitra.CustomControl\OlahCitra.CustomControl.csproj", "{2409525E-5F68-49C6-B15E-6825C6045BD3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OlahCitra.Core", "OlahCitra.Core\OlahCitra.Core.csproj", "{09384BFB-F1F1-4E3E-B48B-FB748E5AC541}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{5B967C09-7A34-42CD-8E34-F8C288AE6F13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B967C09-7A34-42CD-8E34-F8C288AE6F13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B967C09-7A34-42CD-8E34-F8C288AE6F13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2409525E-5F68-49C6-B15E-6825C6045BD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2409525E-5F68-49C6-B15E-6825C6045BD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2409525E-5F68-49C6-B15E-6825C6045BD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2409525E-5F68-49C6-B15E-6825C6045BD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09384BFB-F1F1-4E3E-B48B-FB748E5AC541}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09384BFB-F1F1-4E3E-B48B-FB748E5AC541}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09384BFB-F1F1-4E3E-B48B-FB748E5AC541}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09384BFB-F1F1-4E3E-B48B-FB748E5AC541}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
