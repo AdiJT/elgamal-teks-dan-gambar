@@ -112,32 +112,6 @@ namespace ElGamal.Enkripsi
                         gambarHasil.Data[y, x * 2, c] = (int)a;
                         gambarHasil.Data[y, x * 2 + 1, c] = (int)b;
                     }
-                    //var pixel = imageAsli[y, x];
-
-                    //var mString = $"{(int)pixel.Red:D3}{(int)pixel.Green:D3}{(int)pixel.Blue:D3}";
-                    //var m = long.Parse(mString);
-                    //var k = (long)imageK[y, x].Intensity;
-
-                    //var a = Utils.PangkatModulo(kunciPublik.g, k, kunciPublik.p);
-                    //var b = (Utils.PangkatModulo(kunciPublik.y, k, kunciPublik.p) * (m % kunciPublik.p)) % kunciPublik.p;
-
-                    //var aString = $"{a:D9}";
-                    //var bString = $"{b:D9}";
-
-                    //var aRed = int.Parse(aString.Substring(0, 3));
-                    //var aGreen = int.Parse(aString.Substring(3, 3));
-                    //var aBlue = int.Parse(aString.Substring(6, 3));
-
-                    //var aPixel = new Bgr(aBlue, aGreen, aRed);
-
-                    //var bRed = int.Parse(bString.Substring(0, 3));
-                    //var bGreen = int.Parse(bString.Substring(3, 3));
-                    //var bBlue = int.Parse(bString.Substring(6, 3));
-
-                    //var bPixel = new Bgr(bBlue, bGreen, bRed);
-
-                    //gambarA[y, x] = aPixel;
-                    //gambarB[y, x] = bPixel;
                 }
                 progress.Report((int)((10d / (double)imageAsli.Width) * 100d));
             }

@@ -38,33 +38,28 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.customPictureBoxHasil = new OlahCitra.CustomControl.CustomPictureBox();
             this.customPictureBoxAsli = new OlahCitra.CustomControl.CustomPictureBox();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.labelPNSR = new System.Windows.Forms.Label();
-            this.labelMSE = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
-            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Controls.Add(this.progressBar1, 0, 3);
+            this.tableLayoutPanel1.Controls.Add(this.progressBar1, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.panel2, 0, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 4;
+            this.tableLayoutPanel1.RowCount = 3;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(865, 587);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
@@ -132,7 +127,7 @@
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(859, 472);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(859, 512);
             this.tableLayoutPanel2.TabIndex = 2;
             // 
             // customPictureBoxHasil
@@ -141,7 +136,7 @@
             this.customPictureBoxHasil.Image = ((System.Drawing.Bitmap)(resources.GetObject("customPictureBoxHasil.Image")));
             this.customPictureBoxHasil.Location = new System.Drawing.Point(432, 3);
             this.customPictureBoxHasil.Name = "customPictureBoxHasil";
-            this.customPictureBoxHasil.Size = new System.Drawing.Size(424, 466);
+            this.customPictureBoxHasil.Size = new System.Drawing.Size(424, 506);
             this.customPictureBoxHasil.TabIndex = 3;
             this.customPictureBoxHasil.Title = "Gambar Hasil Enkripsi";
             // 
@@ -151,37 +146,9 @@
             this.customPictureBoxAsli.Image = ((System.Drawing.Bitmap)(resources.GetObject("customPictureBoxAsli.Image")));
             this.customPictureBoxAsli.Location = new System.Drawing.Point(3, 3);
             this.customPictureBoxAsli.Name = "customPictureBoxAsli";
-            this.customPictureBoxAsli.Size = new System.Drawing.Size(423, 466);
+            this.customPictureBoxAsli.Size = new System.Drawing.Size(423, 506);
             this.customPictureBoxAsli.TabIndex = 2;
             this.customPictureBoxAsli.Title = "Gambar Asli";
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.labelPNSR);
-            this.panel2.Controls.Add(this.labelMSE);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(3, 521);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(859, 34);
-            this.panel2.TabIndex = 3;
-            // 
-            // labelPNSR
-            // 
-            this.labelPNSR.AutoSize = true;
-            this.labelPNSR.Location = new System.Drawing.Point(119, 11);
-            this.labelPNSR.Name = "labelPNSR";
-            this.labelPNSR.Size = new System.Drawing.Size(52, 13);
-            this.labelPNSR.TabIndex = 1;
-            this.labelPNSR.Text = "PNSR : 0";
-            // 
-            // labelMSE
-            // 
-            this.labelMSE.AutoSize = true;
-            this.labelMSE.Location = new System.Drawing.Point(11, 11);
-            this.labelMSE.Name = "labelMSE";
-            this.labelMSE.Size = new System.Drawing.Size(45, 13);
-            this.labelMSE.TabIndex = 0;
-            this.labelMSE.Text = "MSE : 0";
             // 
             // openFileDialog1
             // 
@@ -204,8 +171,6 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -221,9 +186,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private OlahCitra.CustomControl.CustomPictureBox customPictureBoxHasil;
         private OlahCitra.CustomControl.CustomPictureBox customPictureBoxAsli;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label labelMSE;
-        private System.Windows.Forms.Label labelPNSR;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
