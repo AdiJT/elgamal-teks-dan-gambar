@@ -105,20 +105,20 @@ namespace ElGamal.Enkripsi
             var histGrayEnkripsi = ImageProcessing.MakeGrayScaleHistogram(gambarEnkripsi);
 
             var ceR = Utils.CrossEntropy(
-                histRGBAsli.histogramR.Select(i => (double)i / 255d).ToArray(),
-                histRGBEnkripsi.histogramR.Select(i => (double)i / 255d).ToArray());
+                histRGBAsli.histogramR.Select(i => (double)i / (double)histRGBAsli.histogramR.Sum()).ToArray(),
+                histRGBEnkripsi.histogramR.Select(i => (double)i / (double)histRGBEnkripsi.histogramR.Sum()).ToArray());
 
             var ceG = Utils.CrossEntropy(
-                histRGBAsli.histogramG.Select(i => (double)i / 255d).ToArray(),
-                histRGBEnkripsi.histogramG.Select(i => (double)i / 255d).ToArray());
+                histRGBAsli.histogramG.Select(i => (double)i / (double)histRGBAsli.histogramG.Sum()).ToArray(),
+                histRGBEnkripsi.histogramG.Select(i => (double)i / (double)histRGBEnkripsi.histogramG.Sum()).ToArray());
 
             var ceB = Utils.CrossEntropy(
-                histRGBAsli.histogramB.Select(i => (double)i / 255d).ToArray(),
-                histRGBEnkripsi.histogramB.Select(i => (double)i / 255d).ToArray());
+                histRGBAsli.histogramB.Select(i => (double)i / (double)histRGBAsli.histogramB.Sum()).ToArray(),
+                histRGBEnkripsi.histogramB.Select(i => (double)i / (double)histRGBEnkripsi.histogramB.Sum()).ToArray());
 
             var ceGray = Utils.CrossEntropy(
-                histGrayAsli.Select(i => (double)i / 255d).ToArray(),
-                histGrayEnkripsi.Select(i => (double)i / 255d).ToArray());
+                histGrayAsli.Select(i => (double)i / (double)histGrayAsli.Sum()).ToArray(),
+                histGrayEnkripsi.Select(i => (double)i / (double)histGrayEnkripsi.Sum()).ToArray());
 
             labelCrossEntropyR.Text = $"Cross Entropy Histogram Red : {ceR:F3}";
             labelCrossEntropyGreen.Text = $"Cross Entropy Histogram Green : {ceG:F3}";
@@ -129,9 +129,10 @@ namespace ElGamal.Enkripsi
         private void UpdateMSEPSNR()
         {
             var imageAsli = customPictureBoxAsli.Image.ToImage<Bgr, int>();
-            imageAsli = imageAsli.Resize(_hasilEnkripsi.Width * 2, _hasilEnkripsi.Height, Inter.Linear);
+            var imageAsliResized = new Image<Bgr, float>(imageAsli.Width * 2, imageAsli.Height);
+            CvInvoke.Resize(imageAsli.Convert<Bgr, float>(), imageAsliResized, new Size(imageAsli.Width * 2, imageAsli.Height));
 
-            (var mse, var psnr) = Utils.HitungMSEPSNR(imageAsli.Data, _hasilEnkripsi.Data);
+            (var mse, var psnr) = Utils.HitungMSEPSNR(imageAsliResized.Convert<Bgr, int>().Data, _hasilEnkripsi.Data);
             labelMSE.Text = $"MSE : {mse:F3}";
             labelPSNR.Text = $"PSNR : {psnr:F3}";
         }

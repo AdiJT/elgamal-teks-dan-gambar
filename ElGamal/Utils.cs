@@ -29,11 +29,11 @@ namespace ElGamal
 
             for(int i = 0; i < p.Length; i++)
             {
-                var h = p[i] * Math.Log(q[i], 2);
-                crossEntropy -= h;
+                var h = p[i] * (q[i] == 0 ? 0 : Math.Log(q[i], 2));
+                crossEntropy += h;
             }
 
-            return crossEntropy;
+            return -1 * crossEntropy;
         }
 
         public static (double MSE, double PSNR) HitungMSEPSNR(int[,,] p, int[,,] q)
@@ -48,17 +48,34 @@ namespace ElGamal
             for (int x = 0; x < p.GetLength(0); x++)
                 for (int y = 0; y < p.GetLength(1); y++)
                 {
-                    for(int c = 0; c < q.GetLength(2); c++)
+                    for(int c = 0; c < p.GetLength(2); c++)
                     {
                         var selisih = Math.Pow(p[x, y, c] - q[x, y, c], 2);
                         total += selisih;
                     }
                 }
 
-            mse = total / (p.GetLength(0) * p.GetLength(1) * 3);
-            psnr = 10 * Math.Log10((255 * 255) / mse);
+            mse = total / (p.GetLength(0) * p.GetLength(1) * p.GetLength(2));
+            psnr = 10 * Math.Log10(Max(p)* Max(p) / mse);
 
             return (mse, psnr);
+        }
+
+        public static int Max(int[,,] p)
+        {
+            var max = int.MinValue;
+
+            for (int x = 0; x < p.GetLength(0); x++)
+                for (int y = 0; y < p.GetLength(1); y++)
+                {
+                    for (int c = 0; c < p.GetLength(2); c++)
+                    {
+                        if (p[x, y, c] > max)
+                            max = p[x, y, c];
+                    }
+                }
+
+            return max;
         }
 
         public static long PangkatModulo(long a, long n, long m)
