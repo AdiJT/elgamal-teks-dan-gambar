@@ -50,11 +50,11 @@
             this.comboBoxJenisEnkripsi = new System.Windows.Forms.ComboBox();
             this.panelEnkripsi = new System.Windows.Forms.Panel();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.comboBoxJenisDekripsi = new System.Windows.Forms.ComboBox();
             this.panelDeskripsi = new System.Windows.Forms.Panel();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -64,9 +64,9 @@
             this.tableLayoutPanel2.SuspendLayout();
             this.panel2.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.tableLayoutPanel3.SuspendLayout();
             this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -81,7 +81,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(840, 528);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1171, 723);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // panel1
@@ -92,7 +92,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(834, 94);
+            this.panel1.Size = new System.Drawing.Size(1165, 94);
             this.panel1.TabIndex = 1;
             // 
             // buttonGenerate
@@ -226,7 +226,7 @@
             this.tabControl1.Location = new System.Drawing.Point(3, 103);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(834, 422);
+            this.tabControl1.Size = new System.Drawing.Size(1165, 617);
             this.tabControl1.TabIndex = 3;
             // 
             // tabPage1
@@ -235,7 +235,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(826, 396);
+            this.tabPage1.Size = new System.Drawing.Size(1157, 591);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Enkripsi";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -252,7 +252,7 @@
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(820, 390);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1151, 585);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // panel2
@@ -261,7 +261,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(3, 3);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(814, 34);
+            this.panel2.Size = new System.Drawing.Size(1145, 34);
             this.panel2.TabIndex = 0;
             // 
             // comboBoxJenisEnkripsi
@@ -281,7 +281,7 @@
             this.panelEnkripsi.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelEnkripsi.Location = new System.Drawing.Point(3, 43);
             this.panelEnkripsi.Name = "panelEnkripsi";
-            this.panelEnkripsi.Size = new System.Drawing.Size(814, 344);
+            this.panelEnkripsi.Size = new System.Drawing.Size(1145, 539);
             this.panelEnkripsi.TabIndex = 1;
             // 
             // tabPage2
@@ -290,14 +290,10 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(826, 396);
+            this.tabPage2.Size = new System.Drawing.Size(1157, 591);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Dekripsi";
             this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // errorProvider1
-            // 
-            this.errorProvider1.ContainerControl = this;
             // 
             // tableLayoutPanel3
             // 
@@ -311,7 +307,7 @@
             this.tableLayoutPanel3.RowCount = 2;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(820, 390);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(1151, 585);
             this.tableLayoutPanel3.TabIndex = 1;
             // 
             // panel3
@@ -320,7 +316,7 @@
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel3.Location = new System.Drawing.Point(3, 3);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(814, 34);
+            this.panel3.Size = new System.Drawing.Size(1145, 34);
             this.panel3.TabIndex = 0;
             // 
             // comboBoxJenisDekripsi
@@ -340,14 +336,18 @@
             this.panelDeskripsi.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelDeskripsi.Location = new System.Drawing.Point(3, 43);
             this.panelDeskripsi.Name = "panelDeskripsi";
-            this.panelDeskripsi.Size = new System.Drawing.Size(814, 344);
+            this.panelDeskripsi.Size = new System.Drawing.Size(1145, 539);
             this.panelDeskripsi.TabIndex = 1;
+            // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(840, 528);
+            this.ClientSize = new System.Drawing.Size(1171, 723);
             this.Controls.Add(this.tableLayoutPanel1);
             this.IsMdiContainer = true;
             this.Name = "FormMain";
@@ -365,9 +365,9 @@
             this.tableLayoutPanel2.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.tableLayoutPanel3.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
 
         }
