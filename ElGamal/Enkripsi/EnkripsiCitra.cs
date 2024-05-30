@@ -1,5 +1,6 @@
 ﻿using ElGamal.Enkripsi.Contract;
 using Emgu.CV;
+using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
 using Newtonsoft.Json;
 using OlahCitra.Core;
@@ -10,6 +11,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -78,14 +80,60 @@ namespace ElGamal.Enkripsi
 
             progressBar1.Value = 0;
 
-            var progress = new Progress<int>((int v) => progressBar1.Value = Math.Min(progressBar1.Value +  v, 100));
+            var progress = new Progress<int>((int v) => progressBar1.Value = Math.Min(progressBar1.Value + v, 100));
             var hasil = new Image<Bgr, int>(customPictureBoxAsli.Image.Size);
             await Task.Run(() => hasil = Enkripsi(progress, customPictureBoxAsli.Image));
             progressBar1.Value = 0;
 
-            customPictureBoxHasil.Image = hasil.Convert<Bgr, byte>().ToBitmap();
+            customPictureBoxHasil.Image = hasil.ToBitmap();
 
             _hasilEnkripsi = hasil;
+
+            UpdateMSEPSNR();
+            UpdateCrossEntropy();
+        }
+
+        private void UpdateCrossEntropy()
+        {
+            var gambarAsli = customPictureBoxAsli.Image;
+            var gambarEnkripsi = customPictureBoxHasil.Image;
+
+            var histRGBAsli = ImageProcessing.MakeRGBHistogram(gambarAsli);
+            var histGrayAsli = ImageProcessing.MakeGrayScaleHistogram(gambarAsli);
+
+            var histRGBEnkripsi = ImageProcessing.MakeRGBHistogram(gambarEnkripsi);
+            var histGrayEnkripsi = ImageProcessing.MakeGrayScaleHistogram(gambarEnkripsi);
+
+            var ceR = Utils.CrossEntropy(
+                histRGBAsli.histogramR.Select(i => (double)i / 255d).ToArray(),
+                histRGBEnkripsi.histogramR.Select(i => (double)i / 255d).ToArray());
+
+            var ceG = Utils.CrossEntropy(
+                histRGBAsli.histogramG.Select(i => (double)i / 255d).ToArray(),
+                histRGBEnkripsi.histogramG.Select(i => (double)i / 255d).ToArray());
+
+            var ceB = Utils.CrossEntropy(
+                histRGBAsli.histogramB.Select(i => (double)i / 255d).ToArray(),
+                histRGBEnkripsi.histogramB.Select(i => (double)i / 255d).ToArray());
+
+            var ceGray = Utils.CrossEntropy(
+                histGrayAsli.Select(i => (double)i / 255d).ToArray(),
+                histGrayEnkripsi.Select(i => (double)i / 255d).ToArray());
+
+            labelCrossEntropyR.Text = $"Cross Entropy Histogram Red : {ceR:F3}";
+            labelCrossEntropyGreen.Text = $"Cross Entropy Histogram Green : {ceG:F3}";
+            labelCrossEntropyBlue.Text = $"Cross Entropy Histogram Blue : {ceB:F3}";
+            labelCrossEntropyGrayScale.Text = $"Cross Entropy Histogram Gray Scale : {ceGray:F3}";
+        }
+        
+        private void UpdateMSEPSNR()
+        {
+            var imageAsli = customPictureBoxAsli.Image.ToImage<Bgr, int>();
+            imageAsli = imageAsli.Resize(_hasilEnkripsi.Width * 2, _hasilEnkripsi.Height, Inter.Linear);
+
+            (var mse, var psnr) = Utils.HitungMSEPSNR(imageAsli.Data, _hasilEnkripsi.Data);
+            labelMSE.Text = $"MSE : {mse:F3}";
+            labelPSNR.Text = $"PSNR : {psnr:F3}";
         }
 
         private Image<Bgr, int> Enkripsi(IProgress<int> progress, Bitmap gambarAsli)
@@ -99,18 +147,19 @@ namespace ElGamal.Enkripsi
 
             for (int x = 0; x < imageAsli.Width; x++)
             {
-                for(int y = 0; y < imageAsli.Height; y++) 
+                for (int y = 0; y < imageAsli.Height; y++)
                 {
-                    for(int c = 0; c < 3; c++)
+                    for (int c = 0; c < 3; c++)
                     {
                         var m = (long)imageAsli.Data[y, x, c];
 
-                        var k = random.NextLong(0, kunciPublik.p);
+                        var k = random.NextLong(1, kunciPublik.p - 1);
                         var a = Utils.PangkatModulo(kunciPublik.g, k, kunciPublik.p);
                         var b = (Utils.PangkatModulo(kunciPublik.y, k, kunciPublik.p) * (m % kunciPublik.p)) % kunciPublik.p;
 
                         gambarHasil.Data[y, x * 2, c] = (int)a;
                         gambarHasil.Data[y, x * 2 + 1, c] = (int)b;
+
                     }
                 }
                 progress.Report((int)((10d / (double)imageAsli.Width) * 100d));

@@ -21,6 +21,46 @@ namespace ElGamal
         //    return Square(PangkatModulo(a, n / 2L, m)) % m;
         //}
 
+        public static double CrossEntropy(double[] p, double[] q)
+        {
+            if (p.Length != q.Length) throw new ArgumentException("Panjang p dan q tidak sama");
+
+            var crossEntropy = 0d;
+
+            for(int i = 0; i < p.Length; i++)
+            {
+                var h = p[i] * Math.Log(q[i], 2);
+                crossEntropy -= h;
+            }
+
+            return crossEntropy;
+        }
+
+        public static (double MSE, double PSNR) HitungMSEPSNR(int[,,] p, int[,,] q)
+        {
+            if (p.GetLength(0) != q.GetLength(0) || p.GetLength(1) != q.GetLength(1) || p.GetLength(2) != q.GetLength(2))
+                throw new ArgumentException();
+
+            double total = 0;
+            double mse = 0;
+            double psnr = 0;
+
+            for (int x = 0; x < p.GetLength(0); x++)
+                for (int y = 0; y < p.GetLength(1); y++)
+                {
+                    for(int c = 0; c < q.GetLength(2); c++)
+                    {
+                        var selisih = Math.Pow(p[x, y, c] - q[x, y, c], 2);
+                        total += selisih;
+                    }
+                }
+
+            mse = total / (p.GetLength(0) * p.GetLength(1) * 3);
+            psnr = 10 * Math.Log10((255 * 255) / mse);
+
+            return (mse, psnr);
+        }
+
         public static long PangkatModulo(long a, long n, long m)
         {
             var bits = Int64ToBit(n);

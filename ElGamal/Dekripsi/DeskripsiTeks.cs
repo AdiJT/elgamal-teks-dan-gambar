@@ -35,14 +35,7 @@ namespace ElGamal.Dekripsi
                     JsonSerializer serializer = new JsonSerializer();
                     _cipherTeks = serializer.Deserialize<int[,]>(jsonReader);
 
-                    var teks = "";
-
-                    for (int i = 0; i < _cipherTeks.GetLength(0); i++)
-                    {
-                        teks += $"a : {_cipherTeks[i, 0]} b : {_cipherTeks[i, 1]}";
-                        if (i != _cipherTeks.GetLength(0) - 1)
-                            teks += ", ";
-                    }
+                    var teks = JsonConvert.SerializeObject(_cipherTeks, Formatting.Indented);
                     textBoxCipher.Text = teks;
                 }
 
@@ -52,7 +45,7 @@ namespace ElGamal.Dekripsi
         }
 
         private async void buttonDeskripsi_Click(object sender, EventArgs e)
-        {
+        { 
             if (_cipherTeks == null) return;
 
             await ProsesAsync();

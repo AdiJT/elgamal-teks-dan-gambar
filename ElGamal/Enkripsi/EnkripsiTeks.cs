@@ -66,14 +66,8 @@ namespace ElGamal.Enkripsi
             await Task.Run(() => hasil = Enkripsi(progress, plainTeks));
 
             _hasilEnkripsi = hasil;
-            var cipherTeks = "";
 
-            for (int i = 0; i < _hasilEnkripsi.GetLength(0); i++)
-            {
-                cipherTeks += $"a : {_hasilEnkripsi[i, 0]} b : {_hasilEnkripsi[i, 1]}";
-                if (i != _hasilEnkripsi.GetLength(0) - 1)
-                    cipherTeks += ", ";
-            }
+            var cipherTeks = JsonConvert.SerializeObject(_hasilEnkripsi, Formatting.Indented);
 
             textBoxHasilEnkripsi.Text = cipherTeks;
         }
@@ -88,7 +82,7 @@ namespace ElGamal.Enkripsi
             {
                 var mChar = plainTeks[i];
                 var m = (long)(int)mChar;
-                var k = random.NextLong(0, kunciPublik.p);
+                var k = random.NextLong(0, kunciPublik.p - 1);
                 var a = Utils.PangkatModulo(kunciPublik.g, k, kunciPublik.p);
                 var b = (Utils.PangkatModulo(kunciPublik.y, k, kunciPublik.p) * (m % kunciPublik.p)) % kunciPublik.p;
                 hasil[i, 0] = (int)a;
