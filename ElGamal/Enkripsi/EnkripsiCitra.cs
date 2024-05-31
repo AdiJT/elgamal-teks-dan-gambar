@@ -1,4 +1,4 @@
-﻿using ElGamal.Enkripsi.Contract;
+﻿using ElGamal.Contracts;
 using Emgu.CV;
 using Emgu.CV.CvEnum;
 using Emgu.CV.Structure;
@@ -18,14 +18,15 @@ using System.Windows.Forms;
 
 namespace ElGamal.Enkripsi
 {
-    public partial class EnkripsiCitra : UserControl, IEnkripsi
+    public partial class EnkripsiCitra : UserControl, IEnkripsiDekripsiControl
     {
         public EnkripsiCitra()
         {
             InitializeComponent();
         }
 
-        public (long p, long g, long y) KunciPublik { get; set; }
+        public ElGamalKey ElGamalKey { get; set; }
+        public bool IsValid { get; set; }
 
         private string _fileName = string.Empty;
         private Image<Bgr, int> _hasilEnkripsi;
@@ -63,6 +64,7 @@ namespace ElGamal.Enkripsi
                     using (var jsonWriter = new JsonTextWriter(streamWriter))
                     {
                         JsonSerializer serializer = new JsonSerializer();
+                        serializer.Formatting = Formatting.Indented;
                         serializer.Serialize(jsonWriter, _hasilEnkripsi.Data);
                     }
                 }
@@ -76,14 +78,21 @@ namespace ElGamal.Enkripsi
 
         private async Task ProsesAsync()
         {
+            if (IsValid == false) return;
             if (customPictureBoxAsli.Image == null) return;
 
             progressBar1.Value = 0;
+            progressBar1.Style = ProgressBarStyle.Marquee;
+            this.Enabled = false;
 
-            var progress = new Progress<int>((int v) => progressBar1.Value = Math.Min(progressBar1.Value + v, 100));
+            var progress = new Progress<bool>((v) =>
+            {
+                if (v == true)
+                    progressBar1.Style = ProgressBarStyle.Blocks;
+            });
+
             var hasil = new Image<Bgr, int>(customPictureBoxAsli.Image.Size);
             await Task.Run(() => hasil = Enkripsi(progress, customPictureBoxAsli.Image));
-            progressBar1.Value = 0;
 
             customPictureBoxHasil.Image = hasil.ToBitmap();
 
@@ -91,6 +100,8 @@ namespace ElGamal.Enkripsi
 
             UpdateMSEPSNR();
             UpdateCrossEntropy();
+
+            this.Enabled = true;
         }
 
         private void UpdateCrossEntropy()
@@ -128,7 +139,7 @@ namespace ElGamal.Enkripsi
         
         private void UpdateMSEPSNR()
         {
-            var imageAsli = customPictureBoxAsli.Image.ToImage<Bgr, int>();
+            var imageAsli = Utils.Padding(customPictureBoxAsli.Image, 3).ToImage<Bgr, int>();
             var imageAsliResized = new Image<Bgr, float>(imageAsli.Width * 2, imageAsli.Height);
             CvInvoke.Resize(imageAsli.Convert<Bgr, float>(), imageAsliResized, new Size(imageAsli.Width * 2, imageAsli.Height));
 
@@ -137,36 +148,15 @@ namespace ElGamal.Enkripsi
             labelPSNR.Text = $"PSNR : {psnr:F3}";
         }
 
-        private Image<Bgr, int> Enkripsi(IProgress<int> progress, Bitmap gambarAsli)
+        private Image<Bgr, int> Enkripsi(IProgress<bool> progress, Bitmap gambarAsli)
         {
-            var kunciPublik = KunciPublik;
+            var kunciPublik = ElGamalKey.KunciPublik;
 
-            var imageAsli = gambarAsli.ToImage<Bgr, int>();
-            var gambarHasil = new Image<Bgr, int>(imageAsli.Width * 2, imageAsli.Height);
+            var hasil = ElGamalCitra.Enkripsi(kunciPublik, gambarAsli);
 
-            var random = new Random();
+            progress.Report(true);
 
-            for (int x = 0; x < imageAsli.Width; x++)
-            {
-                for (int y = 0; y < imageAsli.Height; y++)
-                {
-                    for (int c = 0; c < 3; c++)
-                    {
-                        var m = (long)imageAsli.Data[y, x, c];
-
-                        var k = random.NextLong(1, kunciPublik.p - 1);
-                        var a = Utils.PangkatModulo(kunciPublik.g, k, kunciPublik.p);
-                        var b = (Utils.PangkatModulo(kunciPublik.y, k, kunciPublik.p) * (m % kunciPublik.p)) % kunciPublik.p;
-
-                        gambarHasil.Data[y, x * 2, c] = (int)a;
-                        gambarHasil.Data[y, x * 2 + 1, c] = (int)b;
-
-                    }
-                }
-                progress.Report((int)((10d / (double)imageAsli.Width) * 100d));
-            }
-
-            return gambarHasil;
+            return hasil;
         }
     }
 }

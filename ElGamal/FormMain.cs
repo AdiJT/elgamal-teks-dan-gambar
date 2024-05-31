@@ -1,7 +1,6 @@
-﻿using ElGamal.Dekripsi;
-using ElGamal.Dekripsi.Contract;
+﻿using ElGamal.Contracts;
+using ElGamal.Dekripsi;
 using ElGamal.Enkripsi;
-using ElGamal.Enkripsi.Contract;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,261 +19,90 @@ namespace ElGamal
         {
             InitializeComponent();
 
-            OnKunciPublikChanged += KunciPublikChanged;
-            _activeEnkripsi = _enkripsiCitra;
-            panelEnkripsi.Controls.Add(_enkripsiCitra);
+            _activeCitra = _enkripsiCitra;
+            _activeTeks = _enkripsiTeks;
 
-            OnKunciPrivatChanged += KunciPrivatChanged;
-            _activeDeskripsi = _deskripsiCitra;
-            panelDeskripsi.Controls.Add(_deskripsiCitra);
+            panelCitra.Controls.Clear();
+            panelCitra.Controls.Add(_enkripsiCitra);
+            _enkripsiCitra.ElGamalKey = elGamalKeyPanelCitra.ElGamalKey;
+            _enkripsiCitra.IsValid = elGamalKeyPanelCitra.IsValid;
+            comboBoxCitra.SelectedItem = "Enkripsi";
 
-            // Add KeyPress event handlers to restrict input to numbers only
-            textBoxP.KeyPress += TextBox_KeyPress;
-            textBoxG.KeyPress += TextBox_KeyPress;
-            textBoxX.KeyPress += TextBox_KeyPress;
-
-            // Add Validating event handlers
-            textBoxP.Validating += textBoxP_Validating;
-            textBoxG.Validating += textBoxG_Validating;
-            textBoxX.Validating += textBoxX_Validating;
+            panelTeks.Controls.Clear();
+            panelTeks.Controls.Add(_enkripsiTeks);
+            _enkripsiTeks.ElGamalKey = elGamalKeyPanelTeks.ElGamalKey;
+            _enkripsiTeks.IsValid = elGamalKeyPanelTeks.IsValid;
+            comboBoxTeks.SelectedItem = "Enkripsi";
         }
 
-        public long P
+        private IEnkripsiDekripsiControl _activeCitra;
+        private readonly EnkripsiCitra _enkripsiCitra = new EnkripsiCitra() { Dock = DockStyle.Fill };
+        private readonly DekripsiCitra _dekripsiCitra = new DekripsiCitra() { Dock = DockStyle.Fill };
+
+        private IEnkripsiDekripsiControl _activeTeks;
+        private readonly EnkripsiTeks _enkripsiTeks = new EnkripsiTeks() { Dock = DockStyle.Fill };
+        private readonly DekripsiTeks _dekripsiTeks = new DekripsiTeks() { Dock = DockStyle.Fill };
+
+        private void elGamalKeyPanelCitra_OnKeyChanged(object sender, EventArgs e)
         {
-            get => long.TryParse(textBoxP.Text, out var result) ? result : 0;
-            set => textBoxP.Text = value.ToString();
-        }
-        public long G
-        {
-            get => long.TryParse(textBoxG.Text, out var result) ? result : 0;
-            set => textBoxG.Text = value.ToString();
-        }
-        public long Y
-        {
-            get => long.TryParse(textBoxY.Text, out var result) ? result : 0;
-            set => textBoxY.Text = value.ToString();
-        }
-        public long X
-        {
-            get => long.TryParse(textBoxX.Text, out var result) ? result : 0;
-            set => textBoxX.Text = value.ToString();
+            _activeCitra.ElGamalKey = elGamalKeyPanelCitra.ElGamalKey;
         }
 
-        private IEnkripsi _activeEnkripsi;
-        private EnkripsiCitra _enkripsiCitra = new EnkripsiCitra() { Dock = DockStyle.Fill };
-        private EnkripsiTeks _enkripsiTeks = new EnkripsiTeks() { Dock = DockStyle.Fill };
-
-        private IDeskripsi _activeDeskripsi;
-        private DekripsiCitra _deskripsiCitra = new DekripsiCitra() { Dock = DockStyle.Fill };
-        private DeskripsiTeks _deskripsiTeks = new DeskripsiTeks() { Dock = DockStyle.Fill };
-
-        public event EventHandler OnKunciPublikChanged;
-        public event EventHandler OnKunciPrivatChanged;
-
-        public async Task<T> ProsesAsync<T>(Func<T> action)
+        private void elGamalKeyPanelTeks_OnKeyChanged(object sender, EventArgs e)
         {
-            return await Task.Run(() => action());
+            _activeTeks.ElGamalKey = elGamalKeyPanelTeks.ElGamalKey;
         }
 
-        public void KunciPublikChanged(object sender, EventArgs e)
+        private void elGamalKeyPanelCitra_IsValidChanged(object sender, EventArgs e)
         {
-            _activeEnkripsi.KunciPublik = (P, G, Y);
+            _activeCitra.IsValid = elGamalKeyPanelCitra.IsValid;
         }
 
-        public void KunciPrivatChanged(object sender, EventArgs e)
+        private void elGamalKeyPanelTeks_IsValidChanged(object sender, EventArgs e)
         {
-            _activeDeskripsi.KunciPrivat = (P, X);
+            _activeTeks.IsValid = elGamalKeyPanelTeks.IsValid;
         }
 
-        private async void buttonGenerate_ClickAsync(object sender, EventArgs e)
+        private void comboBoxCitra_SelectedIndexChanged(object sender, EventArgs e)
         {
-            var hasil = await ProsesAsync(GenerateKunci);
-
-            P = hasil.p;
-            G = hasil.g;
-            Y = hasil.y;
-            X = hasil.x;
-
-            OnKunciPublikChanged?.Invoke(this, EventArgs.Empty);
-            OnKunciPrivatChanged?.Invoke(this, EventArgs.Empty);
-            ValidateInputs();
-        }
-
-        private (long p, long g, long y, long x) GenerateKunci()
-        {
-            var p = Utils.RandomPrime(3, 4, min: 255);
-
-            var random = new Random();
-
-            var g = random.NextLong(1, p);
-            var x = random.NextLong(1, p - 1);
-            var y = Utils.PangkatModulo(g, x, p);
-            return (p, g, y, x);
-        }
-
-        private void buttonHitung_Click(object sender, EventArgs e)
-        {
-            if (P <= 0 || G <= 0 || Y <= 0) return;
-
-            var p = P;
-            var g = G;
-            var x = X;
-
-            Y = Utils.PangkatModulo(g, x, p);
-
-            OnKunciPublikChanged?.Invoke(this, EventArgs.Empty);
-        }
-
-        private void textBoxP_Validating(object sender, CancelEventArgs e)
-        {
-            errorProvider1.SetError(textBoxP, null);
-
-            try
+            if (comboBoxCitra.SelectedItem as string == "Enkripsi")
             {
-                if (string.IsNullOrEmpty(textBoxP.Text)) throw new Exception("Belum diisi");
-                if (!long.TryParse(textBoxP.Text, out _)) throw new Exception("Tidak boleh menginput string");
-                if (!Utils.CekPrimaLehman(P, 6)) throw new Exception("Bilangan Bukan Prima");
-                if (P <= 255) throw new Exception("Bilangan lebih kecil dari 255");
-            }
-            catch (Exception ex)
-            {
-                errorProvider1.SetError(textBoxP, ex.Message);
-            }
-            ValidateInputs();
-        }
+                _activeCitra = _enkripsiCitra;
 
-        private void textBoxG_Validating(object sender, CancelEventArgs e)
-        {
-            errorProvider1.SetError(textBoxG, null);
-
-            try
-            {
-                if (string.IsNullOrEmpty(textBoxG.Text)) throw new Exception("Belum diisi");
-                if (!long.TryParse(textBoxG.Text, out _)) throw new Exception("Tidak boleh menginput string");
-                if (G <= 0) throw new Exception("Bilangan nol atau negatif");
-                if (G >= P) throw new Exception("Bilangan lebih besar dari Prima P");
-            }
-            catch (Exception ex)
-            {
-                errorProvider1.SetError(textBoxG, ex.Message);
-            }
-            ValidateInputs();
-        }
-
-        private void textBoxX_Validating(object sender, CancelEventArgs e)
-        {
-            errorProvider1.SetError(textBoxX, null);
-
-            try
-            {
-                if (string.IsNullOrEmpty(textBoxX.Text)) throw new Exception("Belum diisi");
-                if (!long.TryParse(textBoxX.Text, out _)) throw new Exception("Tidak boleh menginput string");
-                if (X <= 0) throw new Exception("Bilangan nol atau negatif");
-                if (X >= P - 1) throw new Exception("Bilangan lebih besar dari Prima P - 1");
-            }
-            catch (Exception ex)
-            {
-                errorProvider1.SetError(textBoxX, ex.Message);
-            }
-            ValidateInputs();
-        }
-
-        private async void FormMain_LoadAsync(object sender, EventArgs e)
-        {
-            comboBoxJenisEnkripsi.SelectedText = "Citra";
-            comboBoxJenisDekripsi.SelectedItem = "Citra";
-
-            var hasil = await ProsesAsync(GenerateKunci);
-
-            P = hasil.p;
-            G = hasil.g;
-            Y = hasil.y;
-            X = hasil.x;
-            ValidateInputs();
-        }
-
-        private void textBoxP_TextChanged(object sender, EventArgs e)
-        {
-            OnKunciPublikChanged?.Invoke(this, EventArgs.Empty);
-            OnKunciPrivatChanged?.Invoke(this, EventArgs.Empty);
-            ValidateInputs();
-        }
-
-        private void textBoxG_TextChanged(object sender, EventArgs e)
-        {
-            OnKunciPublikChanged?.Invoke(this, EventArgs.Empty);
-            ValidateInputs();
-        }
-
-        private void textBoxY_TextChanged(object sender, EventArgs e)
-        {
-            OnKunciPublikChanged?.Invoke(this, EventArgs.Empty);
-            ValidateInputs();
-        }
-
-        private void comboBoxJenisEnkripsi_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if ((string)comboBoxJenisEnkripsi.SelectedItem == "Citra")
-            {
-                panelEnkripsi.Controls.Clear();
-                panelEnkripsi.Controls.Add(_enkripsiCitra);
-                _activeEnkripsi = _enkripsiCitra;
+                panelCitra.Controls.Clear();
+                panelCitra.Controls.Add(_enkripsiCitra);
             }
             else
             {
-                panelEnkripsi.Controls.Clear();
-                panelEnkripsi.Controls.Add(_enkripsiTeks);
-                _activeEnkripsi = _enkripsiTeks;
+                _activeCitra = _dekripsiCitra;
+
+                panelCitra.Controls.Clear();
+                panelCitra.Controls.Add(_dekripsiCitra);
             }
 
-            OnKunciPublikChanged?.Invoke(this, EventArgs.Empty);
+            _activeCitra.ElGamalKey = elGamalKeyPanelCitra.ElGamalKey;
+            _activeCitra.IsValid = elGamalKeyPanelCitra.IsValid;
         }
 
-        private void textBoxX_TextChanged(object sender, EventArgs e)
+        private void comboBoxTeks_SelectedIndexChanged(object sender, EventArgs e)
         {
-            OnKunciPrivatChanged?.Invoke(this, EventArgs.Empty);
-            ValidateInputs();
-        }
-
-        private void comboBoxJenisDekripsi_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if ((string)comboBoxJenisDekripsi.SelectedItem == "Citra")
+            if (comboBoxTeks.SelectedItem as string == "Enkripsi")
             {
-                panelDeskripsi.Controls.Clear();
-                panelDeskripsi.Controls.Add(_deskripsiCitra);
-                _activeDeskripsi = _deskripsiCitra;
+                _activeTeks = _enkripsiTeks;
+
+                panelTeks.Controls.Clear();
+                panelTeks.Controls.Add(_enkripsiTeks);
             }
             else
             {
-                panelDeskripsi.Controls.Clear();
-                panelDeskripsi.Controls.Add(_deskripsiTeks);
-                _activeDeskripsi = _deskripsiTeks;
+                _activeTeks = _dekripsiTeks;
+
+                panelTeks.Controls.Clear();
+                panelTeks.Controls.Add(_dekripsiTeks);
             }
 
-            OnKunciPrivatChanged?.Invoke(this, EventArgs.Empty);
-        }
-
-        private void TextBox_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            // Allow control characters, digits only
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
-            {
-                e.Handled = true;
-                errorProvider1.SetError((Control)sender, "Tidak boleh menginput string");
-            }
-            else
-            {
-                errorProvider1.SetError((Control)sender, null);
-            }
-        }
-
-        private void ValidateInputs()
-        {
-            bool isValidP = !string.IsNullOrEmpty(textBoxP.Text) && long.TryParse(textBoxP.Text, out _) && errorProvider1.GetError(textBoxP) == "";
-            bool isValidG = !string.IsNullOrEmpty(textBoxG.Text) && long.TryParse(textBoxG.Text, out _) && errorProvider1.GetError(textBoxG) == "";
-            bool isValidX = !string.IsNullOrEmpty(textBoxX.Text) && long.TryParse(textBoxX.Text, out _) && errorProvider1.GetError(textBoxX) == "";
-
-            buttonHitung.Enabled = isValidP && isValidG && isValidX;
+            _activeTeks.ElGamalKey = elGamalKeyPanelTeks.ElGamalKey;
+            _activeTeks.IsValid = elGamalKeyPanelTeks.IsValid;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using ElGamal.Dekripsi.Contract;
+﻿using ElGamal.Contracts;
 using Emgu.CV;
 using Emgu.CV.Structure;
 using Newtonsoft.Json;
@@ -15,14 +15,15 @@ using System.Windows.Forms;
 
 namespace ElGamal.Dekripsi
 {
-    public partial class DekripsiCitra : UserControl, IDeskripsi
+    public partial class DekripsiCitra : UserControl, IEnkripsiDekripsiControl
     {
         public DekripsiCitra()
         {
             InitializeComponent();
         }
 
-        public (long p, long x) KunciPrivat { get; set; }
+        public ElGamalKey ElGamalKey { get; set; }
+        public bool IsValid { get; set; }
 
         private Image<Bgr, int> _gambarCipher;
         private string _fileName = string.Empty;
@@ -66,39 +67,36 @@ namespace ElGamal.Dekripsi
 
         private async Task ProsesAsync()
         {
+            if (IsValid == false) return;
             if (_gambarCipher == null) return;
 
             progressBar1.Value = 0;
-            var progress = new Progress<int>((int v) => progressBar1.Value = Math.Min(progressBar1.Value + v, 100));
-            var hasil = new Image<Bgr, byte>(_gambarCipher.Size);
-            await Task.Run(() => hasil = Dekripsi(progress, _gambarCipher));
-            progressBar1.Value = 0;
+            progressBar1.Style = ProgressBarStyle.Marquee;
+            this.Enabled = false;
 
-            customPictureBoxPlain.Image = hasil.ToBitmap();
+            var progress = new Progress<bool>((v) =>
+            {
+                if (v == true)
+                    progressBar1.Style = ProgressBarStyle.Blocks;
+            });
+
+            var hasil = new Bitmap(_gambarCipher.Width / 2, _gambarCipher.Height);
+            await Task.Run(() => hasil = Dekripsi(progress, _gambarCipher));
+
+            progressBar1.Value = 0;
+            this.Enabled = true;
+
+            customPictureBoxPlain.Image = hasil;
         }
 
-        private Image<Bgr, byte> Dekripsi(IProgress<int> progress, Image<Bgr, int> cipherImage)
+        private Bitmap Dekripsi(IProgress<bool> progress, Image<Bgr, int> cipherImage)
         {
-            var kunciPrivat = KunciPrivat;
-            var hasil = new Image<Bgr, int>(cipherImage.Width / 2, cipherImage.Height);
+            var kunciPrivat = ElGamalKey.KunciPrivat;
 
-            for(int x = 0; x < hasil.Width; x++)
-            {
-                for(int y = 0; y < hasil.Height; y++)
-                {
-                    for(int c = 0; c < 3; c++)
-                    {
-                        var a = (long)cipherImage.Data[y, x * 2, c];
-                        var b = (long)cipherImage.Data[y, x * 2 + 1, c];
+            var hasil = ElGamalCitra.Dekripsi(kunciPrivat, cipherImage);
+            progress.Report(true);
 
-                        var m = ((b % kunciPrivat.p) * Utils.PangkatModulo(a, kunciPrivat.p - kunciPrivat.x - 1, kunciPrivat.p)) % kunciPrivat.p;
-
-                        hasil.Data[y, x, c] = (int)m;
-                    }
-                }
-            }
-
-            return hasil.Convert<Bgr, byte>();
+            return hasil;
         }
     }
 }

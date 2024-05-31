@@ -1,4 +1,4 @@
-﻿using ElGamal.Dekripsi.Contract;
+﻿using ElGamal.Contracts;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,14 +13,15 @@ using System.Windows.Forms;
 
 namespace ElGamal.Dekripsi
 {
-    public partial class DeskripsiTeks : UserControl, IDeskripsi
+    public partial class DekripsiTeks : UserControl, IEnkripsiDekripsiControl
     {
-        public DeskripsiTeks()
+        public DekripsiTeks()
         {
             InitializeComponent();
         }
 
-        public (long p, long x) KunciPrivat { get; set; }
+        public ElGamalKey ElGamalKey { get; set; }
+        public bool IsValid { get; set; }
 
         private int[,] _cipherTeks;
         private string _fileName = string.Empty;
@@ -45,7 +46,8 @@ namespace ElGamal.Dekripsi
         }
 
         private async void buttonDeskripsi_Click(object sender, EventArgs e)
-        { 
+        {
+            if (IsValid == false) return;
             if (_cipherTeks == null) return;
 
             await ProsesAsync();
@@ -53,31 +55,25 @@ namespace ElGamal.Dekripsi
 
         private async Task ProsesAsync()
         {
+            this.Enabled = false;
+            progressBar1.Style = ProgressBarStyle.Marquee;
             progressBar1.Value = 0;
-            var progress = new Progress<int>(v => progressBar1.Value = Math.Min(progressBar1.Maximum, progressBar1.Value + v));
+            var progress = new Progress<bool>(v => { if (v) progressBar1.Style = ProgressBarStyle.Blocks; });
 
             string hasil = string.Empty;
             await Task.Run(() => hasil = Dekripsi(progress, _cipherTeks));
             progressBar1.Value = 0;
 
             textBoxHasilDekripsi.Text = hasil;
+            this.Enabled = true;
         }
 
-        private string Dekripsi(IProgress<int> progress, int[,] cipherTeks)
+        private string Dekripsi(IProgress<bool> progress, int[,] cipherTeks)
         {
-            var kunciPrivat = KunciPrivat;
-            string hasil = "";
+            var kunciPrivat = ElGamalKey.KunciPrivat;
 
-            for(int i = 0; i < cipherTeks.GetLength(0); i++)
-            {
-                var a = (long)cipherTeks[i, 0];
-                var b = (long)cipherTeks[i, 1];
-
-                var m = ((b % kunciPrivat.p) * Utils.PangkatModulo(a, kunciPrivat.p - kunciPrivat.x - 1, kunciPrivat.p)) % kunciPrivat.p;
-
-                hasil += UTF8Encoding.UTF8.GetString(new byte[] { (byte)m });
-            }
-
+            var hasil = ElGamalTeks.Dekripsi(kunciPrivat, cipherTeks);
+            progress.Report(true);
             return hasil;
         }
 

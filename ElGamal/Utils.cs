@@ -5,22 +5,12 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace ElGamal
 {
     public static class Utils
     {
-
-        //public static long PangkatModulo(long a, long n, long m)
-        ////a^n mod m
-        //{
-        //    if (n == 0) return 1;
-
-        //    if (n % 2 == 1) return Square(PangkatModulo(a, n / 2L, m)) * a % m;
-
-        //    return Square(PangkatModulo(a, n / 2L, m)) % m;
-        //}
-
         public static double CrossEntropy(double[] p, double[] q)
         {
             if (p.Length != q.Length) throw new ArgumentException("Panjang p dan q tidak sama");
@@ -56,7 +46,7 @@ namespace ElGamal
                 }
 
             mse = total / (p.GetLength(0) * p.GetLength(1) * p.GetLength(2));
-            psnr = 10 * Math.Log10(Max(p)* Max(p) / mse);
+            psnr = 10 * Math.Log10(255 * 255 / mse);
 
             return (mse, psnr);
         }
@@ -91,6 +81,38 @@ namespace ElGamal
             }
 
             return hasil;
+        }
+
+        public static BigInteger PangkatModulo(BigInteger a, BigInteger n, BigInteger m)
+        {
+            var bits = BigIntToBits(n);
+            BigInteger hasil = 1;
+
+            for (int i = 0; i < bits.Length; i++)
+            {
+                hasil = (hasil * hasil) % m;
+                if (bits[i] == 1)
+                    hasil = (hasil * a) % m;
+            }
+
+            return hasil;
+        }
+
+        public static int[] BigIntToBits(BigInteger b)
+        {
+            if (b == 0) return new int[] { 0 };
+
+            List<int> bits = new List<int>();
+
+            while (b > 0)
+            {
+                bits.Add((int)(b % 2));
+                b >>= 1;
+            }
+
+            bits.Reverse();
+
+            return bits.ToArray();
         }
 
         public static int[] Int64ToBit(long b)
@@ -156,6 +178,36 @@ namespace ElGamal
             return true;
         }
 
+        public static bool CekPrimaLehman(BigInteger prime, int banyakPengujian = 6)
+        {
+            if (prime <= 256) return primes.Contains((long)prime);
+
+            //Bagi dengan bil. prima < 256
+            foreach (var nilai in primes)
+                if (prime % nilai == 0) return false;
+
+            var random = new Random();
+            var listAngkaUji = new List<int>();
+            var listHasilUji = new List<BigInteger>();
+            var pangkat = (prime - 1) / 2L;
+            for (int i = 0; i < banyakPengujian; i++)
+            {
+                int a = 0;
+
+                do
+                {
+                    a = random.Next(100);
+                } while (listAngkaUji.Contains(a));
+                listAngkaUji.Add(a);
+
+                var uji = PangkatModulo(a, pangkat, prime);
+                if (uji != 1 && uji != -1 && uji != prime - 1) return false;
+                listHasilUji.Add(uji);
+            }
+
+            return true;
+        }
+
         public static long RandomPrime(int minDigits, int maxDigits, int? min = null, int? max = null)
         {
             var random = new Random();
@@ -168,6 +220,51 @@ namespace ElGamal
             } while (!CekPrimaLehman(prime, 6) || (min != null && prime < min) || (max != null && prime >= max));
 
             return prime;
+        }
+
+        public static BigInteger RandomPrime(int minDigits, int maxDigits, BigInteger? min = null, BigInteger? max = null)
+        {
+            var random = new Random();
+
+            BigInteger prime;
+
+            BigInteger minInDigit = BigInteger.Pow(10, minDigits - 1);
+            BigInteger maxInDigit = BigInteger.Pow(10, maxDigits - 1);
+
+            do
+            {
+                prime = random.NextBigInt(minInDigit, maxInDigit);
+            } while (!CekPrimaLehman(prime, 6) || (min != null && prime < min) || (max != null && prime >= max));
+
+            return prime;
+        }
+
+        public static Bitmap Padding(Bitmap citra, int ukuranBlok = 3)
+        {
+            var padding = citra.Width % ukuranBlok;
+
+            if (padding == 0) return citra;
+
+            var hasil = new Bitmap(citra.Width + padding, citra.Height);
+            using(var g = Graphics.FromImage(hasil))
+            {
+                g.Clear(Color.Black);
+                g.DrawImage(citra, new Point(0, 0));
+            }
+
+            return hasil;
+        }
+
+        public static string Padding(string s, int ukuranBlok = 3)
+        {
+            var padding = s.Length % ukuranBlok;
+
+            if (padding == 0) return s;
+
+            for (int i = 0; i < padding; i++)
+                s += Encoding.UTF8.GetString(new byte[] { 0 });
+
+            return s;
         }
     }
 }

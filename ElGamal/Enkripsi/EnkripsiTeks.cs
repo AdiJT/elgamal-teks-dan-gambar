@@ -1,4 +1,4 @@
-﻿using ElGamal.Enkripsi.Contract;
+﻿using ElGamal.Contracts;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -13,16 +13,18 @@ using System.Windows.Forms;
 
 namespace ElGamal.Enkripsi
 {
-    public partial class EnkripsiTeks : UserControl, IEnkripsi
+    public partial class EnkripsiTeks : UserControl, IEnkripsiDekripsiControl
     {
         public EnkripsiTeks()
         {
             InitializeComponent();
         }
 
-        public (long p, long g, long y) KunciPublik { get; set; }
         private string _fileName = string.Empty;
         private int[,] _hasilEnkripsi;
+
+        public ElGamalKey ElGamalKey { get; set; }
+        public bool IsValid { get; set; }
 
         private void buttonBuka_Click(object sender, EventArgs e)
         {
@@ -57,8 +59,16 @@ namespace ElGamal.Enkripsi
 
         private async Task ProsesAsync()
         {
+            this.Enabled = false;
             progressBar1.Value = 0;
-            var progress = new Progress<int>((v) => progressBar1.Value = Math.Min(progressBar1.Value + v, progressBar1.Maximum));
+            progressBar1.Style = ProgressBarStyle.Marquee;
+            var progress = new Progress<bool>
+            (
+                (v) =>
+                {
+                    if (v) progressBar1.Style = ProgressBarStyle.Blocks;
+                }
+            );
 
             var plainTeks = textBoxAsli.Text;
             var hasil = new int[plainTeks.Length, 2];
@@ -70,30 +80,24 @@ namespace ElGamal.Enkripsi
             var cipherTeks = JsonConvert.SerializeObject(_hasilEnkripsi, Formatting.Indented);
 
             textBoxHasilEnkripsi.Text = cipherTeks;
+
+            this.Enabled = true;
         }
 
-        private int[,] Enkripsi(IProgress<int> progress, string plainTeks)
+        private int[,] Enkripsi(IProgress<bool> progress, string plainTeks)
         {
-            var hasil = new int[plainTeks.Length, 2];
-            var kunciPublik = KunciPublik;
-            var random = new Random();
+            var kunciPublik = ElGamalKey.KunciPublik;
 
-            for(int i = 0; i < plainTeks.Length; i++)
-            {
-                var mChar = plainTeks[i];
-                var m = (long)(int)mChar;
-                var k = random.NextLong(0, kunciPublik.p - 1);
-                var a = Utils.PangkatModulo(kunciPublik.g, k, kunciPublik.p);
-                var b = (Utils.PangkatModulo(kunciPublik.y, k, kunciPublik.p) * (m % kunciPublik.p)) % kunciPublik.p;
-                hasil[i, 0] = (int)a;
-                hasil[i, 1] = (int)b;
-            }
+            var hasil = ElGamalTeks.Enkripsi(kunciPublik, plainTeks);
+
+            progress.Report(true);
 
             return hasil;
         }
 
         private async void buttonEnkripsi_Click(object sender, EventArgs e)
         {
+            if (IsValid == false) return;
             if (string.IsNullOrEmpty(textBoxAsli.Text)) return;
 
             await ProsesAsync();

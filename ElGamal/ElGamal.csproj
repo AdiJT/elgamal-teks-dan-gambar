@@ -77,20 +77,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Dekripsi\Contract\IDeskripsi.cs" />
+    <Compile Include="Contracts\IEnkripsiDekripsiControl.cs" />
     <Compile Include="Dekripsi\DekripsiCitra.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Dekripsi\DekripsiCitra.Designer.cs">
       <DependentUpon>DekripsiCitra.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dekripsi\DeskripsiTeks.cs">
+    <Compile Include="Dekripsi\DekripsiTeks.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Dekripsi\DeskripsiTeks.Designer.cs">
-      <DependentUpon>DeskripsiTeks.cs</DependentUpon>
+    <Compile Include="Dekripsi\DekripsiTeks.Designer.cs">
+      <DependentUpon>DekripsiTeks.cs</DependentUpon>
     </Compile>
-    <Compile Include="Enkripsi\Contract\IEnkripsi.cs" />
+    <Compile Include="ElGamalCitra.cs" />
+    <Compile Include="ElGamalKey.cs" />
+    <Compile Include="ElGamalKeyPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ElGamalKeyPanel.Designer.cs">
+      <DependentUpon>ElGamalKeyPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ElGamalTeks.cs" />
     <Compile Include="Enkripsi\EnkripsiCitra.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -116,8 +124,11 @@
     <EmbeddedResource Include="Dekripsi\DekripsiCitra.resx">
       <DependentUpon>DekripsiCitra.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Dekripsi\DeskripsiTeks.resx">
-      <DependentUpon>DeskripsiTeks.cs</DependentUpon>
+    <EmbeddedResource Include="Dekripsi\DekripsiTeks.resx">
+      <DependentUpon>DekripsiTeks.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ElGamalKeyPanel.resx">
+      <DependentUpon>ElGamalKeyPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Enkripsi\EnkripsiCitra.resx">
       <DependentUpon>EnkripsiCitra.cs</DependentUpon>

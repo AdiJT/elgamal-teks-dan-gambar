@@ -1,6 +1,6 @@
 ﻿namespace ElGamal.Dekripsi
 {
-    partial class DeskripsiTeks
+    partial class DekripsiTeks
     {
         /// <summary> 
         /// Required designer variable.
