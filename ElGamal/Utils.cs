@@ -46,7 +46,7 @@ namespace ElGamal
                 }
 
             mse = total / (p.GetLength(0) * p.GetLength(1) * p.GetLength(2));
-            psnr = 10 * Math.Log10(255 * 255 / mse);
+            psnr = 10 * Math.Log10(255 * 255 / (mse + Math.Pow(10, -7)));
 
             return (mse, psnr);
         }

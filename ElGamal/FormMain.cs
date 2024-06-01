@@ -1,6 +1,8 @@
 ﻿using ElGamal.Contracts;
 using ElGamal.Dekripsi;
 using ElGamal.Enkripsi;
+using Emgu.CV;
+using Emgu.CV.Structure;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -103,6 +105,72 @@ namespace ElGamal
 
             _activeTeks.ElGamalKey = elGamalKeyPanelTeks.ElGamalKey;
             _activeTeks.IsValid = elGamalKeyPanelTeks.IsValid;
+        }
+
+        private void buttonBuka_Click(object sender, EventArgs e)
+        {
+            if(openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                var fileName = openFileDialog1.FileName;
+                customPictureBoxAsli.Image = new Bitmap(fileName);
+                customPictureBoxHasil.Image = null;
+            }
+        }
+
+        private async void buttonUji_Click(object sender, EventArgs e)
+        {
+            if (elGamalKeyPanelCitra.IsValid == false) return;
+            await ProsesAsync();
+        }
+
+        private async Task ProsesAsync()
+        {
+            progressBar1.Value = 0;
+            progressBar1.Style = ProgressBarStyle.Marquee;
+            tableLayoutPanelUji.Enabled = false;
+
+            var progress = new Progress<Bitmap>(
+                v => 
+                {
+                    customPictureBoxHasil.Image = v;
+                }
+            );
+
+            var asli = customPictureBoxAsli.Image;
+            var hasil = new Bitmap(asli.Width, asli.Height);
+
+            await Task.Run(() => hasil = UjiHasilDekripsi(progress, asli));
+
+            customPictureBoxHasil.Image = hasil;
+
+            UpdateMSEPSNR();
+
+            tableLayoutPanelUji.Enabled = true;
+            progressBar1.Style = ProgressBarStyle.Blocks;
+        }
+
+        private void UpdateMSEPSNR()
+        {
+            var asli = customPictureBoxAsli.Image;
+            var hasil = customPictureBoxHasil.Image;
+
+            asli = Utils.Padding(asli);
+
+            var msePSNR = Utils.HitungMSEPSNR(asli.ToImage<Bgr, int>().Data, hasil.ToImage<Bgr, int>().Data);
+
+            labelMSE.Text = $"MSE : {msePSNR.MSE}";
+            labelPSNR.Text = $"PSNR : {msePSNR.PSNR}";
+        }
+
+        private Bitmap UjiHasilDekripsi(IProgress<Bitmap> progress, Bitmap asli)
+        {
+            var enkripsi = ElGamalCitra.Enkripsi(elGamalKeyPanelCitra.ElGamalKey.KunciPublik, asli);
+            progress.Report(enkripsi.ToBitmap());
+
+            var dekripsi = ElGamalCitra.Dekripsi(elGamalKeyPanelCitra.ElGamalKey.KunciPrivat, enkripsi);
+            progress.Report(dekripsi);
+
+            return dekripsi;
         }
     }
 }

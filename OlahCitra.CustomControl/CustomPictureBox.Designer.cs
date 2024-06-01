@@ -31,11 +31,10 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.buttonKorelasi = new System.Windows.Forms.Button();
+            this.labelResolusi = new System.Windows.Forms.Label();
             this.buttonHistogram = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.labelTitle = new System.Windows.Forms.Label();
-            this.labelResolusi = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
@@ -73,7 +72,6 @@
             // panel1
             // 
             this.panel1.Controls.Add(this.labelResolusi);
-            this.panel1.Controls.Add(this.buttonKorelasi);
             this.panel1.Controls.Add(this.buttonHistogram);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(5, 272);
@@ -81,14 +79,14 @@
             this.panel1.Size = new System.Drawing.Size(399, 34);
             this.panel1.TabIndex = 3;
             // 
-            // buttonKorelasi
+            // labelResolusi
             // 
-            this.buttonKorelasi.Location = new System.Drawing.Point(83, 6);
-            this.buttonKorelasi.Name = "buttonKorelasi";
-            this.buttonKorelasi.Size = new System.Drawing.Size(75, 23);
-            this.buttonKorelasi.TabIndex = 1;
-            this.buttonKorelasi.Text = "Korelasi";
-            this.buttonKorelasi.UseVisualStyleBackColor = true;
+            this.labelResolusi.AutoSize = true;
+            this.labelResolusi.Location = new System.Drawing.Point(288, 11);
+            this.labelResolusi.Name = "labelResolusi";
+            this.labelResolusi.Size = new System.Drawing.Size(56, 13);
+            this.labelResolusi.TabIndex = 2;
+            this.labelResolusi.Text = "Resolusi : ";
             // 
             // buttonHistogram
             // 
@@ -119,15 +117,6 @@
             this.labelTitle.Text = "Title";
             this.labelTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // labelResolusi
-            // 
-            this.labelResolusi.AutoSize = true;
-            this.labelResolusi.Location = new System.Drawing.Point(288, 11);
-            this.labelResolusi.Name = "labelResolusi";
-            this.labelResolusi.Size = new System.Drawing.Size(56, 13);
-            this.labelResolusi.TabIndex = 2;
-            this.labelResolusi.Text = "Resolusi : ";
-            // 
             // CustomPictureBox
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -150,7 +139,6 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button buttonHistogram;
-        private System.Windows.Forms.Button buttonKorelasi;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label labelTitle;
         private System.Windows.Forms.Label labelResolusi;
