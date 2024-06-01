@@ -103,7 +103,7 @@ namespace ElGamal.Enkripsi
                 var inSeconds = _durasi / 1000d;
                 var inMinutes = inSeconds / 60d;
 
-                labelWaktu.Text = $"Lama Proses : {(int)inMinutes:D2} : {(int)inSeconds % 60:D2} {(int)_durasi % 1000} ms";
+                labelWaktu.Text = $"Lama Proses : {(int)inMinutes:D2} menit {(int)inSeconds % 60:D2} detik {(int)_durasi % 1000} ms";
             }
             else
                 labelWaktu.Text = $"Lama Proses : {_durasi} ms";
