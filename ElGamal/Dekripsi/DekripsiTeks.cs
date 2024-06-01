@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace ElGamal.Dekripsi
 
         private int[,] _cipherTeks;
         private string _fileName = string.Empty;
+        private long _durasi;
 
         private void buttonBuka_Click(object sender, EventArgs e)
         {
@@ -62,6 +64,17 @@ namespace ElGamal.Dekripsi
 
             string hasil = string.Empty;
             await Task.Run(() => hasil = Dekripsi(progress, _cipherTeks));
+
+            if (_durasi >= 1000)
+            {
+                var inSeconds = _durasi / 1000d;
+                var inMinutes = inSeconds / 60d;
+
+                labelWaktu.Text = $"Lama Proses : {(int)inMinutes:D2} : {(int)inSeconds % 60:D2} {(int)_durasi % 1000} ms";
+            }
+            else
+                labelWaktu.Text = $"Lama Proses : {_durasi} ms";
+
             progressBar1.Value = 0;
 
             textBoxHasilDekripsi.Text = hasil;
@@ -72,7 +85,11 @@ namespace ElGamal.Dekripsi
         {
             var kunciPrivat = ElGamalKey.KunciPrivat;
 
+            var stopwatch = Stopwatch.StartNew();
             var hasil = ElGamalTeks.Dekripsi(kunciPrivat, cipherTeks);
+            stopwatch.Stop();
+            _durasi = stopwatch.ElapsedMilliseconds;
+
             progress.Report(true);
             return hasil;
         }

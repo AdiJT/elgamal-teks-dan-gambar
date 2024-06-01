@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace ElGamal.Enkripsi
 
         private string _fileName = string.Empty;
         private int[,] _hasilEnkripsi;
+        private long _durasi;
 
         public ElGamalKey ElGamalKey { get; set; }
         public bool IsValid { get; set; }
@@ -62,13 +64,7 @@ namespace ElGamal.Enkripsi
             this.Enabled = false;
             progressBar1.Value = 0;
             progressBar1.Style = ProgressBarStyle.Marquee;
-            var progress = new Progress<bool>
-            (
-                (v) =>
-                {
-                    if (v) progressBar1.Style = ProgressBarStyle.Blocks;
-                }
-            );
+            var progress = new Progress<bool> ( (v) => { if (v) progressBar1.Style = ProgressBarStyle.Blocks; } );
 
             var plainTeks = textBoxAsli.Text;
             var hasil = new int[plainTeks.Length, 2];
@@ -76,6 +72,16 @@ namespace ElGamal.Enkripsi
             await Task.Run(() => hasil = Enkripsi(progress, plainTeks));
 
             _hasilEnkripsi = hasil;
+
+            if (_durasi >= 1000)
+            {
+                var inSeconds = _durasi / 1000d;
+                var inMinutes = inSeconds / 60d;
+
+                labelWaktu.Text = $"Lama Proses : {(int)inMinutes:D2} : {(int)inSeconds % 60:D2} {(int)_durasi % 1000} ms";
+            }
+            else
+                labelWaktu.Text = $"Lama Proses : {_durasi} ms";
 
             var cipherTeks = JsonConvert.SerializeObject(_hasilEnkripsi, Formatting.Indented);
 
@@ -88,7 +94,10 @@ namespace ElGamal.Enkripsi
         {
             var kunciPublik = ElGamalKey.KunciPublik;
 
+            Stopwatch stopwatch = Stopwatch.StartNew();
             var hasil = ElGamalTeks.Enkripsi(kunciPublik, plainTeks);
+            stopwatch.Stop();
+            _durasi = stopwatch.ElapsedMilliseconds;
 
             progress.Report(true);
 

@@ -40,9 +40,7 @@ namespace ElGamal
                     var b = Utils.PangkatModulo(kunciPublik.Y, k, kunciPublik.P) * (m % kunciPublik.P) % kunciPublik.P;
 
                     var aString = $"{a:D27}";
-                    Debug.Assert(aString.Length == 27);
                     var bString = $"{b:D27}";
-                    Debug.Assert(bString.Length == 27);
 
                     var pixelPertamaA = aString.Substring(0, 9);
                     var pixelKeduaA = aString.Substring(9, 9);

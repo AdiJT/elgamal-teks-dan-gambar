@@ -44,6 +44,7 @@
             this.textBoxP = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
+            this.buttonCek = new System.Windows.Forms.Button();
             this.panel6.SuspendLayout();
             this.panel7.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -116,6 +117,7 @@
             // groupBox4
             // 
             this.groupBox4.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.groupBox4.Controls.Add(this.buttonCek);
             this.groupBox4.Controls.Add(this.buttonHitung);
             this.groupBox4.Controls.Add(this.textBoxY);
             this.groupBox4.Controls.Add(this.label6);
@@ -200,6 +202,16 @@
             // 
             this.errorProvider1.ContainerControl = this;
             // 
+            // buttonCek
+            // 
+            this.buttonCek.Location = new System.Drawing.Point(286, 15);
+            this.buttonCek.Name = "buttonCek";
+            this.buttonCek.Size = new System.Drawing.Size(75, 23);
+            this.buttonCek.TabIndex = 7;
+            this.buttonCek.Text = "Cek";
+            this.buttonCek.UseVisualStyleBackColor = true;
+            this.buttonCek.Click += new System.EventHandler(this.buttonCek_Click);
+            // 
             // ElGamalKeyPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -235,5 +247,6 @@
         private System.Windows.Forms.TextBox textBoxP;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ErrorProvider errorProvider1;
+        private System.Windows.Forms.Button buttonCek;
     }
 }

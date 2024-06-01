@@ -11,7 +11,7 @@ namespace ElGamal
     {
         public static int[,] Enkripsi((BigInteger P, BigInteger G, BigInteger Y) kunciPublik, string plain)
         {
-            plain = Utils.Padding(plain, 3);
+            plain = Utils.Padding(plain);
             var plainBytes = Encoding.UTF8.GetBytes(plain);
             var cipher = new int[plain.Length, 2];
 

@@ -47,6 +47,11 @@
             this.labelMSE = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.labelPSNRA = new System.Windows.Forms.Label();
+            this.labelMSEA = new System.Windows.Forms.Label();
+            this.labelPSNRB = new System.Windows.Forms.Label();
+            this.labelMSEB = new System.Windows.Forms.Label();
+            this.labelWaktu = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -69,7 +74,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 60F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(928, 587);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(973, 587);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // progressBar1
@@ -77,24 +82,25 @@
             this.progressBar1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.progressBar1.Location = new System.Drawing.Point(3, 561);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(922, 23);
+            this.progressBar1.Size = new System.Drawing.Size(967, 23);
             this.progressBar1.TabIndex = 0;
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.labelWaktu);
             this.panel1.Controls.Add(this.buttonEnkripsi);
             this.panel1.Controls.Add(this.buttonSimpan);
             this.panel1.Controls.Add(this.buttonBuka);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(922, 34);
+            this.panel1.Size = new System.Drawing.Size(967, 34);
             this.panel1.TabIndex = 1;
             // 
             // buttonEnkripsi
             // 
             this.buttonEnkripsi.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.buttonEnkripsi.Location = new System.Drawing.Point(843, 5);
+            this.buttonEnkripsi.Location = new System.Drawing.Point(888, 5);
             this.buttonEnkripsi.Name = "buttonEnkripsi";
             this.buttonEnkripsi.Size = new System.Drawing.Size(75, 23);
             this.buttonEnkripsi.TabIndex = 2;
@@ -136,16 +142,16 @@
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(922, 452);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(967, 452);
             this.tableLayoutPanel2.TabIndex = 2;
             // 
             // customPictureBoxHasil
             // 
             this.customPictureBoxHasil.Dock = System.Windows.Forms.DockStyle.Fill;
             this.customPictureBoxHasil.Image = ((System.Drawing.Bitmap)(resources.GetObject("customPictureBoxHasil.Image")));
-            this.customPictureBoxHasil.Location = new System.Drawing.Point(464, 3);
+            this.customPictureBoxHasil.Location = new System.Drawing.Point(486, 3);
             this.customPictureBoxHasil.Name = "customPictureBoxHasil";
-            this.customPictureBoxHasil.Size = new System.Drawing.Size(455, 446);
+            this.customPictureBoxHasil.Size = new System.Drawing.Size(478, 446);
             this.customPictureBoxHasil.TabIndex = 3;
             this.customPictureBoxHasil.Title = "Gambar Hasil Enkripsi";
             // 
@@ -155,12 +161,16 @@
             this.customPictureBoxAsli.Image = ((System.Drawing.Bitmap)(resources.GetObject("customPictureBoxAsli.Image")));
             this.customPictureBoxAsli.Location = new System.Drawing.Point(3, 3);
             this.customPictureBoxAsli.Name = "customPictureBoxAsli";
-            this.customPictureBoxAsli.Size = new System.Drawing.Size(455, 446);
+            this.customPictureBoxAsli.Size = new System.Drawing.Size(477, 446);
             this.customPictureBoxAsli.TabIndex = 2;
             this.customPictureBoxAsli.Title = "Gambar Asli";
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.labelPSNRB);
+            this.panel2.Controls.Add(this.labelMSEB);
+            this.panel2.Controls.Add(this.labelPSNRA);
+            this.panel2.Controls.Add(this.labelMSEA);
             this.panel2.Controls.Add(this.labelCrossEntropyGrayScale);
             this.panel2.Controls.Add(this.labelCrossEntropyBlue);
             this.panel2.Controls.Add(this.labelCrossEntropyGreen);
@@ -170,7 +180,7 @@
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(3, 501);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(922, 54);
+            this.panel2.Size = new System.Drawing.Size(967, 54);
             this.panel2.TabIndex = 3;
             // 
             // labelCrossEntropyGrayScale
@@ -203,7 +213,7 @@
             // labelCrossEntropyR
             // 
             this.labelCrossEntropyR.AutoSize = true;
-            this.labelCrossEntropyR.Location = new System.Drawing.Point(343, 6);
+            this.labelCrossEntropyR.Location = new System.Drawing.Point(652, 29);
             this.labelCrossEntropyR.Name = "labelCrossEntropyR";
             this.labelCrossEntropyR.Size = new System.Drawing.Size(163, 13);
             this.labelCrossEntropyR.TabIndex = 2;
@@ -212,7 +222,7 @@
             // labelPSNR
             // 
             this.labelPSNR.AutoSize = true;
-            this.labelPSNR.Location = new System.Drawing.Point(126, 6);
+            this.labelPSNR.Location = new System.Drawing.Point(108, 6);
             this.labelPSNR.Name = "labelPSNR";
             this.labelPSNR.Size = new System.Drawing.Size(52, 13);
             this.labelPSNR.TabIndex = 1;
@@ -238,15 +248,62 @@
             this.saveFileDialog1.DefaultExt = "jpeg";
             this.saveFileDialog1.Filter = "Encrypt Files (*.encrypt)|*.encrypt";
             // 
+            // labelPSNRA
+            // 
+            this.labelPSNRA.AutoSize = true;
+            this.labelPSNRA.Location = new System.Drawing.Point(319, 6);
+            this.labelPSNRA.Name = "labelPSNRA";
+            this.labelPSNRA.Size = new System.Drawing.Size(62, 13);
+            this.labelPSNRA.TabIndex = 7;
+            this.labelPSNRA.Text = "PSNR A : 0";
+            // 
+            // labelMSEA
+            // 
+            this.labelMSEA.AutoSize = true;
+            this.labelMSEA.Location = new System.Drawing.Point(217, 6);
+            this.labelMSEA.Name = "labelMSEA";
+            this.labelMSEA.Size = new System.Drawing.Size(55, 13);
+            this.labelMSEA.TabIndex = 6;
+            this.labelMSEA.Text = "MSE A : 0";
+            // 
+            // labelPSNRB
+            // 
+            this.labelPSNRB.AutoSize = true;
+            this.labelPSNRB.Location = new System.Drawing.Point(530, 6);
+            this.labelPSNRB.Name = "labelPSNRB";
+            this.labelPSNRB.Size = new System.Drawing.Size(62, 13);
+            this.labelPSNRB.TabIndex = 9;
+            this.labelPSNRB.Text = "PSNR B : 0";
+            // 
+            // labelMSEB
+            // 
+            this.labelMSEB.AutoSize = true;
+            this.labelMSEB.Location = new System.Drawing.Point(428, 6);
+            this.labelMSEB.Name = "labelMSEB";
+            this.labelMSEB.Size = new System.Drawing.Size(55, 13);
+            this.labelMSEB.TabIndex = 8;
+            this.labelMSEB.Text = "MSE B : 0";
+            // 
+            // labelWaktu
+            // 
+            this.labelWaktu.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelWaktu.AutoSize = true;
+            this.labelWaktu.Location = new System.Drawing.Point(680, 10);
+            this.labelWaktu.Name = "labelWaktu";
+            this.labelWaktu.Size = new System.Drawing.Size(68, 13);
+            this.labelWaktu.TabIndex = 3;
+            this.labelWaktu.Text = "Lama Proses";
+            // 
             // EnkripsiCitra
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "EnkripsiCitra";
-            this.Size = new System.Drawing.Size(928, 587);
+            this.Size = new System.Drawing.Size(973, 587);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
@@ -274,5 +331,10 @@
         private System.Windows.Forms.Label labelCrossEntropyGreen;
         private System.Windows.Forms.Label labelCrossEntropyBlue;
         private System.Windows.Forms.Label labelCrossEntropyGrayScale;
+        private System.Windows.Forms.Label labelPSNRB;
+        private System.Windows.Forms.Label labelMSEB;
+        private System.Windows.Forms.Label labelPSNRA;
+        private System.Windows.Forms.Label labelMSEA;
+        private System.Windows.Forms.Label labelWaktu;
     }
 }

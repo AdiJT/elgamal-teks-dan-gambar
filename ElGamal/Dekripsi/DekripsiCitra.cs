@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -27,6 +28,7 @@ namespace ElGamal.Dekripsi
 
         private Image<Bgr, int> _gambarCipher;
         private string _fileName = string.Empty;
+        private double _durasi = 0d;
 
         private void buttonBuka_Click(object sender, EventArgs e)
         {
@@ -83,6 +85,16 @@ namespace ElGamal.Dekripsi
             var hasil = new Bitmap(_gambarCipher.Width / 2, _gambarCipher.Height);
             await Task.Run(() => hasil = Dekripsi(progress, _gambarCipher));
 
+            if (_durasi >= 1000)
+            {
+                var inSeconds = _durasi / 1000d;
+                var inMinutes = inSeconds / 60d;
+
+                labelWaktu.Text = $"Lama Proses : {(int)inMinutes:D2} : {(int)inSeconds % 60:D2} {(int)_durasi % 1000} ms";
+            }
+            else
+                labelWaktu.Text = $"Lama Proses : {_durasi} ms";
+
             progressBar1.Value = 0;
             this.Enabled = true;
 
@@ -93,7 +105,10 @@ namespace ElGamal.Dekripsi
         {
             var kunciPrivat = ElGamalKey.KunciPrivat;
 
+            Stopwatch stopwatch = Stopwatch.StartNew();
             var hasil = ElGamalCitra.Dekripsi(kunciPrivat, cipherImage);
+            stopwatch.Stop();
+            _durasi = stopwatch.ElapsedMilliseconds;
             progress.Report(true);
 
             return hasil;

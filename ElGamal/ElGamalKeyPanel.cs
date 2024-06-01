@@ -178,5 +178,17 @@ namespace ElGamal
                 }
             }
         }
+
+        private void buttonCek_Click(object sender, EventArgs e)
+        {
+            var p = BigInteger.Parse(textBoxP.Text);
+
+            var jmlUji = 8;
+            var hasil = Utils.CekPrimaLehman(p, jmlUji);
+            var hasilString = $"{p} " + (hasil ? "adalah" : "bukan") + $" bilangan prima";
+            var confidence = $" dengan kesalahan {1d / Math.Pow(2, jmlUji):F4}%";
+            hasilString = hasilString + (hasil ? confidence : string.Empty) + "!";
+            MessageBox.Show(hasilString, $"Hasil Pengecekan Prima dengan Algoritma Lehman (Jumlah Uji : {jmlUji})", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
     }
 }

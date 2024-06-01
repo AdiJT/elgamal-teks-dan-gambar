@@ -40,6 +40,7 @@
             this.customPictureBoxCipher = new OlahCitra.CustomControl.CustomPictureBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.labelWaktu = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -73,6 +74,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.labelWaktu);
             this.panel1.Controls.Add(this.buttonDekripsi);
             this.panel1.Controls.Add(this.buttonSimpan);
             this.panel1.Controls.Add(this.buttonBuka);
@@ -159,6 +161,16 @@
             // 
             this.saveFileDialog1.Filter = "JPEG Files (*.jpeg)|*.jpeg|JPG Files (*.jpg)|*.jpg|BMP Files (*.bmp)|*.bmp";
             // 
+            // labelWaktu
+            // 
+            this.labelWaktu.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelWaktu.AutoSize = true;
+            this.labelWaktu.Location = new System.Drawing.Point(621, 10);
+            this.labelWaktu.Name = "labelWaktu";
+            this.labelWaktu.Size = new System.Drawing.Size(74, 13);
+            this.labelWaktu.TabIndex = 3;
+            this.labelWaktu.Text = "Lama Proses :";
+            // 
             // DekripsiCitra
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -168,6 +180,7 @@
             this.Size = new System.Drawing.Size(849, 582);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -186,5 +199,6 @@
         private OlahCitra.CustomControl.CustomPictureBox customPictureBoxCipher;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.Label labelWaktu;
     }
 }

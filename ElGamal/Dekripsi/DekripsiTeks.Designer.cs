@@ -39,6 +39,7 @@
             this.textBoxHasilDekripsi = new System.Windows.Forms.TextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.labelWaktu = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
@@ -75,6 +76,7 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.labelWaktu);
             this.panel1.Controls.Add(this.buttonDeskripsi);
             this.panel1.Controls.Add(this.buttonSimpan);
             this.panel1.Controls.Add(this.buttonBuka);
@@ -163,15 +165,26 @@
             // 
             this.saveFileDialog1.Filter = "Text Files (*.txt)|*.txt";
             // 
-            // DeskripsiTeks
+            // labelWaktu
+            // 
+            this.labelWaktu.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.labelWaktu.AutoSize = true;
+            this.labelWaktu.Location = new System.Drawing.Point(605, 10);
+            this.labelWaktu.Name = "labelWaktu";
+            this.labelWaktu.Size = new System.Drawing.Size(68, 13);
+            this.labelWaktu.TabIndex = 4;
+            this.labelWaktu.Text = "Lama Proses";
+            // 
+            // DekripsiTeks
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Name = "DeskripsiTeks";
+            this.Name = "DekripsiTeks";
             this.Size = new System.Drawing.Size(851, 571);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -195,5 +208,6 @@
         private System.Windows.Forms.TextBox textBoxHasilDekripsi;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.Label labelWaktu;
     }
 }

@@ -241,9 +241,9 @@ namespace ElGamal
 
         public static Bitmap Padding(Bitmap citra, int ukuranBlok = 3)
         {
-            var padding = citra.Width % ukuranBlok;
+            var padding = 3 - (citra.Width % ukuranBlok);
 
-            if (padding == 0) return citra;
+            if (padding == 3) return citra;
 
             var hasil = new Bitmap(citra.Width + padding, citra.Height);
             using(var g = Graphics.FromImage(hasil))
@@ -257,9 +257,9 @@ namespace ElGamal
 
         public static string Padding(string s, int ukuranBlok = 3)
         {
-            var padding = s.Length % ukuranBlok;
+            var padding =  ukuranBlok - (s.Length % ukuranBlok);
 
-            if (padding == 0) return s;
+            if (padding == 3) return s;
 
             for (int i = 0; i < padding; i++)
                 s += Encoding.UTF8.GetString(new byte[] { 0 });

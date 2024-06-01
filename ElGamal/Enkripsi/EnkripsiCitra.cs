@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -30,6 +31,7 @@ namespace ElGamal.Enkripsi
 
         private string _fileName = string.Empty;
         private Image<Bgr, int> _hasilEnkripsi;
+        private double _durasi = 0d;
 
         private void buttonBuka_Click(object sender, EventArgs e)
         {
@@ -96,6 +98,17 @@ namespace ElGamal.Enkripsi
 
             customPictureBoxHasil.Image = hasil.ToBitmap();
 
+            if(_durasi >= 1000)
+            {
+                var inSeconds = _durasi / 1000d;
+                var inMinutes = inSeconds / 60d;
+
+                labelWaktu.Text = $"Lama Proses : {(int)inMinutes:D2} : {(int)inSeconds % 60:D2} {(int)_durasi % 1000} ms";
+            }
+            else
+                labelWaktu.Text = $"Lama Proses : {_durasi} ms";
+
+
             _hasilEnkripsi = hasil;
 
             UpdateMSEPSNR();
@@ -140,10 +153,22 @@ namespace ElGamal.Enkripsi
         private void UpdateMSEPSNR()
         {
             var imageAsli = Utils.Padding(customPictureBoxAsli.Image, 3).ToImage<Bgr, int>();
-            var imageAsliResized = new Image<Bgr, float>(imageAsli.Width * 2, imageAsli.Height);
-            CvInvoke.Resize(imageAsli.Convert<Bgr, float>(), imageAsliResized, new Size(imageAsli.Width * 2, imageAsli.Height));
 
-            (var mse, var psnr) = Utils.HitungMSEPSNR(imageAsliResized.Convert<Bgr, int>().Data, _hasilEnkripsi.Data);
+            var gambarA = _hasilEnkripsi.Copy(new Rectangle(new Point(0, 0), imageAsli.Size));
+            var gambarB = _hasilEnkripsi.Copy(new Rectangle(new Point(imageAsli.Width, 0), imageAsli.Size));
+
+            var msePSNRA = Utils.HitungMSEPSNR(imageAsli.Data, gambarA.Data);
+            var msePSNRB = Utils.HitungMSEPSNR(imageAsli.Data, gambarB.Data);
+
+            var mse = (msePSNRA.MSE + msePSNRB.MSE) / 2d;
+            var psnr = 10d * Math.Log10(255d * 255d / mse);
+
+            labelMSEA.Text = $"MSE A : {msePSNRA.MSE:F3}";
+            labelPSNRA.Text = $"PSNR A : {msePSNRA.PSNR:F3}";
+
+            labelMSEB.Text = $"MSE B : {msePSNRB.MSE:F3}";
+            labelPSNRB.Text = $"PSNR B : {msePSNRB.PSNR:F3}";
+
             labelMSE.Text = $"MSE : {mse:F3}";
             labelPSNR.Text = $"PSNR : {psnr:F3}";
         }
@@ -152,7 +177,10 @@ namespace ElGamal.Enkripsi
         {
             var kunciPublik = ElGamalKey.KunciPublik;
 
+            Stopwatch stopwatch = Stopwatch.StartNew();
             var hasil = ElGamalCitra.Enkripsi(kunciPublik, gambarAsli);
+            stopwatch.Stop();
+            _durasi = stopwatch.ElapsedMilliseconds;
 
             progress.Report(true);
 
