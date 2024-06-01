@@ -30,7 +30,7 @@ namespace ElGamal.Enkripsi
 
         private void buttonBuka_Click(object sender, EventArgs e)
         {
-            if(openFileDialog1.ShowDialog() == DialogResult.OK)
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 string fileString = File.ReadAllText(openFileDialog1.FileName);
 
@@ -47,10 +47,10 @@ namespace ElGamal.Enkripsi
             saveFileDialog1.InitialDirectory = openFileDialog1.InitialDirectory;
             saveFileDialog1.FileName = _fileName + " - Hasil Enkripsi";
 
-            if(saveFileDialog1.ShowDialog() == DialogResult.OK)
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                using(StreamWriter sw = new StreamWriter(saveFileDialog1.FileName))
-                using(JsonTextWriter js = new JsonTextWriter(sw))
+                using (StreamWriter sw = new StreamWriter(saveFileDialog1.FileName))
+                using (JsonTextWriter js = new JsonTextWriter(sw))
                 {
                     var serializer = new JsonSerializer();
                     serializer.Formatting = Formatting.Indented;
@@ -64,7 +64,7 @@ namespace ElGamal.Enkripsi
             this.Enabled = false;
             progressBar1.Value = 0;
             progressBar1.Style = ProgressBarStyle.Marquee;
-            var progress = new Progress<bool> ( (v) => { if (v) progressBar1.Style = ProgressBarStyle.Blocks; } );
+            var progress = new Progress<bool>((v) => { if (v) progressBar1.Style = ProgressBarStyle.Blocks; });
 
             var plainTeks = textBoxAsli.Text;
             var hasil = new int[plainTeks.Length, 2];
@@ -83,11 +83,43 @@ namespace ElGamal.Enkripsi
             else
                 labelWaktu.Text = $"Lama Proses : {_durasi} ms";
 
+            HitungMSEPSNR();
+
             var cipherTeks = JsonConvert.SerializeObject(_hasilEnkripsi, Formatting.Indented);
-
             textBoxHasilEnkripsi.Text = cipherTeks;
-
             this.Enabled = true;
+        }
+
+        private void HitungMSEPSNR()
+        {
+            var asli = textBoxAsli.Text;
+            var asliInt = Encoding.UTF8.GetBytes(asli).Select(b => (int)b).ToArray();
+
+            var totalA = 0d;
+            var totalB = 0d;
+
+            for (int i = 0; i < asliInt.Length; i++)
+            {
+                totalA += Math.Pow(asliInt[i] - _hasilEnkripsi[i, 0], 2);
+                totalB += Math.Pow(asliInt[i] - _hasilEnkripsi[i, 1], 2);
+            }
+
+            var mseA = totalA / asliInt.Length;
+            var mseB = totalB / asliInt.Length;
+
+            var mse = (mseA + mseB) / 2;
+
+            var psnrA = 10 * Math.Log10(255d * 255d / mseA);
+            var psnrB = 10 * Math.Log10(255d * 255d / mseB);
+            var psnr = 10 * Math.Log10(255d * 255d / mse);
+
+            labelMSE.Text = $"MSE : {mse:F3}";
+            labelMSEA.Text = $"MSE a : {mseA:F3}";
+            labelMSEB.Text = $"MSE b : {mseB:F3}";
+
+            labelPSNR.Text = $"PSNR : {psnr:F3}";
+            labelPSNRA.Text = $"PSNR a : {psnrA:F3}";
+            labelPSNRB.Text = $"PSNR b : {psnrB:F3}";
         }
 
         private int[,] Enkripsi(IProgress<bool> progress, string plainTeks)
